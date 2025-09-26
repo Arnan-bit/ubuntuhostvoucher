@@ -504,7 +504,16 @@ export const RequestAndSubmitPage = ({ translations, allDeals, siteSettings, min
     const [submitVoucherForm, setSubmitVoucherForm] = useState({ provider: '', voucherCode: '', description: '', link: '', userEmail: '' });
     const [gamificationState, setGamificationState] = useState({ email: '', ethAddress: '', termsAccepted: false });
     const [nftShowcaseForm, setNftShowcaseForm] = useState({ title: '', nftImageUrl: '', marketplaceLink: '', userEmail: '' });
-    const [testimonialForm, setTestimonialForm] = useState({ name: '', email: '', rating: 5, testimonial: '' });
+    const [testimonialForm, setTestimonialForm] = useState({ 
+        name: '', 
+        email: '', 
+        job: '', 
+        company: '', 
+        rating: 5.0, 
+        testimonial: '',
+        termsAccepted: false,
+        allowPublicDisplay: true
+    });
     
     const [isLocked, setIsLocked] = useState(false);
     const [hasMounted, setHasMounted] = useState(false);
@@ -747,7 +756,241 @@ export const RequestAndSubmitPage = ({ translations, allDeals, siteSettings, min
                             </div>
                         </div>
                     )}
-                    {activeTab === 'testimonial' && (<div><h3 className="text-2xl font-bold mb-2 text-gray-900 dark:text-white">{translations.en.submitTestimonialTitle}</h3><p className="text-gray-600 dark:text-gray-400 mb-6">{translations.en.submitTestimonialDescription}</p><form onSubmit={handleSumbitTestimonial} className="space-y-4"><input type="text" required placeholder="Your Name" value={testimonialForm.name} onChange={e => setTestimonialForm({...testimonialForm, name: e.target.value})} className="w-full p-3 rounded-lg border-2 bg-gray-50 dark:bg-gray-700 border-gray-200 dark:border-gray-600"/><input type="email" required placeholder="Your Email" value={testimonialForm.email} onChange={e => setTestimonialForm({...testimonialForm, email: e.target.value})} className="w-full p-3 rounded-lg border-2 bg-gray-50 dark:bg-gray-700 border-gray-200 dark:border-gray-600" disabled={isLocked}/><div className="flex items-center space-x-2"><Checkbox id="terms-testimonial" /><label htmlFor="terms-testimonial">I agree to the terms and conditions</label></div><div><label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">Your Rating (1-5)</label><StarRating rating={testimonialForm.rating} onRatingChange={(r: any) => setTestimonialForm({...testimonialForm, rating: r})} justify='start' /></div><textarea placeholder="Your Testimonial about HostVoucher" value={testimonialForm.testimonial} onChange={e => setTestimonialForm({...testimonialForm, testimonial: e.target.value})} rows={5} className="w-full p-3 rounded-lg border-2 bg-gray-50 dark:bg-gray-700 border-gray-200 dark:border-gray-600"></textarea><button type="submit" className="w-full bg-blue-600 text-white py-3 px-6 rounded-lg font-semibold hover:bg-blue-700">{translations.en.submitTestimonialButton}</button></form></div>)}
+                    {activeTab === 'testimonial' && (
+                        <div className="max-w-4xl mx-auto">
+                            <div className="text-center mb-8">
+                                <h3 className="text-3xl font-bold mb-4 text-gray-900 dark:text-white">{translations.en.submitTestimonialTitle}</h3>
+                                <p className="text-lg text-gray-600 dark:text-gray-400 mb-2">{translations.en.submitTestimonialDescription}</p>
+                                <div className="bg-gradient-to-r from-green-100 to-blue-100 dark:from-green-900/20 dark:to-blue-900/20 rounded-lg p-4 mt-4">
+                                    <p className="text-sm text-gray-700 dark:text-gray-300">
+                                        <strong>✨ Your testimonial will be automatically displayed on our homepage!</strong><br/>
+                                        We'll use your email to fetch your profile picture from Gravatar for a professional display.
+                                    </p>
+                                </div>
+                            </div>
+
+                            <form onSubmit={handleSumbitTestimonial} className="space-y-6 bg-white dark:bg-gray-800 rounded-xl p-8 shadow-lg border border-gray-200 dark:border-gray-700">
+                                {/* Personal Information Section */}
+                                <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                                    <div>
+                                        <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
+                                            Full Name *
+                                        </label>
+                                        <input 
+                                            type="text" 
+                                            required 
+                                            placeholder="Enter your full name" 
+                                            value={testimonialForm.name} 
+                                            onChange={e => setTestimonialForm({...testimonialForm, name: e.target.value})} 
+                                            className="w-full p-4 rounded-lg border-2 bg-gray-50 dark:bg-gray-700 border-gray-200 dark:border-gray-600 focus:border-blue-500 focus:ring-2 focus:ring-blue-200 transition-all"
+                                        />
+                                    </div>
+
+                                    <div>
+                                        <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
+                                            Email Address *
+                                        </label>
+                                        <input 
+                                            type="email" 
+                                            required 
+                                            placeholder="your.email@example.com" 
+                                            value={testimonialForm.email} 
+                                            onChange={e => setTestimonialForm({...testimonialForm, email: e.target.value})} 
+                                            className="w-full p-4 rounded-lg border-2 bg-gray-50 dark:bg-gray-700 border-gray-200 dark:border-gray-600 focus:border-blue-500 focus:ring-2 focus:ring-blue-200 transition-all" 
+                                            disabled={isLocked}
+                                        />
+                                        <p className="text-xs text-gray-500 dark:text-gray-400 mt-1">
+                                            We'll use this to fetch your profile picture from Gravatar
+                                        </p>
+                                    </div>
+                                </div>
+
+                                {/* Professional Information Section */}
+                                <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                                    <div>
+                                        <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
+                                            Job Title *
+                                        </label>
+                                        <input 
+                                            type="text" 
+                                            required 
+                                            placeholder="e.g., Web Developer, Business Owner" 
+                                            value={testimonialForm.job} 
+                                            onChange={e => setTestimonialForm({...testimonialForm, job: e.target.value})} 
+                                            className="w-full p-4 rounded-lg border-2 bg-gray-50 dark:bg-gray-700 border-gray-200 dark:border-gray-600 focus:border-blue-500 focus:ring-2 focus:ring-blue-200 transition-all"
+                                        />
+                                    </div>
+
+                                    <div>
+                                        <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
+                                            Company/Organization
+                                        </label>
+                                        <input 
+                                            type="text" 
+                                            placeholder="e.g., Tech Solutions Inc. (Optional)" 
+                                            value={testimonialForm.company} 
+                                            onChange={e => setTestimonialForm({...testimonialForm, company: e.target.value})} 
+                                            className="w-full p-4 rounded-lg border-2 bg-gray-50 dark:bg-gray-700 border-gray-200 dark:border-gray-600 focus:border-blue-500 focus:ring-2 focus:ring-blue-200 transition-all"
+                                        />
+                                    </div>
+                                </div>
+
+                                {/* Enhanced Rating Section */}
+                                <div className="bg-gradient-to-r from-yellow-50 to-orange-50 dark:from-yellow-900/20 dark:to-orange-900/20 rounded-lg p-6 border border-yellow-200 dark:border-yellow-700">
+                                    <label className="block text-lg font-semibold text-gray-800 dark:text-gray-200 mb-4">
+                                        Your Rating (1-5 stars) *
+                                    </label>
+                                    <div className="flex flex-col sm:flex-row items-start sm:items-center gap-4">
+                                        <div className="flex items-center gap-2">
+                                            {[1, 2, 3, 4, 5].map((star) => (
+                                                <button
+                                                    key={star}
+                                                    type="button"
+                                                    onClick={() => setTestimonialForm({...testimonialForm, rating: star})}
+                                                    className="transition-all duration-200 hover:scale-110"
+                                                >
+                                                    <Star
+                                                        className={`w-8 h-8 ${
+                                                            star <= testimonialForm.rating
+                                                                ? 'text-yellow-400 fill-current'
+                                                                : 'text-gray-300 dark:text-gray-600'
+                                                        }`}
+                                                    />
+                                                </button>
+                                            ))}
+                                        </div>
+                                        <div className="flex items-center gap-4">
+                                            <span className="text-2xl font-bold text-yellow-600 dark:text-yellow-400">
+                                                {testimonialForm.rating.toFixed(1)}
+                                            </span>
+                                            <div className="flex flex-col">
+                                                <input
+                                                    type="range"
+                                                    min="1"
+                                                    max="5"
+                                                    step="0.1"
+                                                    value={testimonialForm.rating}
+                                                    onChange={e => setTestimonialForm({...testimonialForm, rating: parseFloat(e.target.value)})}
+                                                    className="w-32 h-2 bg-gray-200 rounded-lg appearance-none cursor-pointer dark:bg-gray-700"
+                                                />
+                                                <div className="flex justify-between text-xs text-gray-500 mt-1">
+                                                    <span>1.0</span>
+                                                    <span>5.0</span>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <p className="text-sm text-gray-600 dark:text-gray-400 mt-2">
+                                        Use the slider for precise decimal ratings (e.g., 4.7 stars)
+                                    </p>
+                                </div>
+
+                                {/* Testimonial Text */}
+                                <div>
+                                    <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
+                                        Your Testimonial *
+                                    </label>
+                                    <textarea 
+                                        required
+                                        placeholder="Share your experience with HostVoucher. How did our service help you? What would you recommend to others?" 
+                                        value={testimonialForm.testimonial} 
+                                        onChange={e => setTestimonialForm({...testimonialForm, testimonial: e.target.value})} 
+                                        rows={6} 
+                                        className="w-full p-4 rounded-lg border-2 bg-gray-50 dark:bg-gray-700 border-gray-200 dark:border-gray-600 focus:border-blue-500 focus:ring-2 focus:ring-blue-200 transition-all resize-none"
+                                    />
+                                    <div className="flex justify-between items-center mt-2">
+                                        <p className="text-xs text-gray-500 dark:text-gray-400">
+                                            Minimum 50 characters for a meaningful testimonial
+                                        </p>
+                                        <span className={`text-xs ${testimonialForm.testimonial.length >= 50 ? 'text-green-600' : 'text-gray-400'}`}>
+                                            {testimonialForm.testimonial.length}/500
+                                        </span>
+                                    </div>
+                                </div>
+
+                                {/* Consent and Terms */}
+                                <div className="space-y-4 bg-gray-50 dark:bg-gray-700/50 rounded-lg p-4">
+                                    <div className="flex items-start space-x-3">
+                                        <Checkbox 
+                                            id="terms-testimonial" 
+                                            checked={testimonialForm.termsAccepted}
+                                            onCheckedChange={(checked) => setTestimonialForm({...testimonialForm, termsAccepted: !!checked})}
+                                        />
+                                        <label htmlFor="terms-testimonial" className="text-sm text-gray-700 dark:text-gray-300 leading-relaxed">
+                                            I agree to the <a href="/terms" className="text-blue-600 hover:underline">terms and conditions</a> and confirm that this testimonial is based on my genuine experience with HostVoucher services.
+                                        </label>
+                                    </div>
+
+                                    <div className="flex items-start space-x-3">
+                                        <Checkbox 
+                                            id="public-display" 
+                                            checked={testimonialForm.allowPublicDisplay}
+                                            onCheckedChange={(checked) => setTestimonialForm({...testimonialForm, allowPublicDisplay: !!checked})}
+                                        />
+                                        <label htmlFor="public-display" className="text-sm text-gray-700 dark:text-gray-300 leading-relaxed">
+                                            I consent to having my testimonial, name, job title, and profile picture displayed publicly on the HostVoucher website and marketing materials.
+                                        </label>
+                                    </div>
+                                </div>
+
+                                {/* Submit Button */}
+                                <div className="pt-4">
+                                    <button 
+                                        type="submit" 
+                                        disabled={!testimonialForm.termsAccepted || !testimonialForm.allowPublicDisplay || testimonialForm.testimonial.length < 50}
+                                        className="w-full bg-gradient-to-r from-blue-600 to-purple-600 text-white py-4 px-8 rounded-lg font-semibold text-lg hover:from-blue-700 hover:to-purple-700 focus:ring-4 focus:ring-blue-300 disabled:opacity-50 disabled:cursor-not-allowed transition-all duration-200 flex items-center justify-center gap-2"
+                                    >
+                                        <Star className="w-5 h-5" />
+                                        {translations.en.submitTestimonialButton}
+                                    </button>
+                                    <p className="text-center text-xs text-gray-500 dark:text-gray-400 mt-2">
+                                        Your testimonial will be reviewed and published within 24 hours
+                                    </p>
+                                </div>
+
+                                {/* Preview Section */}
+                                {testimonialForm.name && testimonialForm.testimonial && (
+                                    <div className="mt-8 p-6 bg-gradient-to-r from-blue-50 to-indigo-50 dark:from-blue-900/20 dark:to-indigo-900/20 rounded-lg border border-blue-200 dark:border-blue-700">
+                                        <h4 className="text-lg font-semibold text-gray-800 dark:text-gray-200 mb-4">Preview of Your Testimonial:</h4>
+                                        <div className="bg-white dark:bg-gray-800 rounded-lg p-4 shadow-sm">
+                                            <div className="flex items-start gap-4">
+                                                <div className="w-12 h-12 bg-gradient-to-br from-blue-400 to-purple-500 rounded-full flex items-center justify-center text-white font-bold text-lg">
+                                                    {testimonialForm.name.charAt(0).toUpperCase()}
+                                                </div>
+                                                <div className="flex-1">
+                                                    <div className="flex items-center gap-2 mb-2">
+                                                        <h5 className="font-semibold text-gray-900 dark:text-white">{testimonialForm.name}</h5>
+                                                        <span className="text-gray-500 dark:text-gray-400">•</span>
+                                                        <span className="text-sm text-gray-600 dark:text-gray-400">
+                                                            {testimonialForm.job}{testimonialForm.company && ` at ${testimonialForm.company}`}
+                                                        </span>
+                                                    </div>
+                                                    <div className="flex items-center gap-2 mb-3">
+                                                        {[1, 2, 3, 4, 5].map((star) => (
+                                                            <Star
+                                                                key={star}
+                                                                className={`w-4 h-4 ${
+                                                                    star <= testimonialForm.rating
+                                                                        ? 'text-yellow-400 fill-current'
+                                                                        : 'text-gray-300 dark:text-gray-600'
+                                                                }`}
+                                                            />
+                                                        ))}
+                                                        <span className="text-sm font-medium text-gray-600 dark:text-gray-400 ml-1">
+                                                            {testimonialForm.rating.toFixed(1)}
+                                                        </span>
+                                                    </div>
+                                                    <p className="text-gray-700 dark:text-gray-300 leading-relaxed">
+                                                        "{testimonialForm.testimonial}"
+                                                    </p>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                )}
+                            </form>
+                        </div>
+                    )}
                     {activeTab === 'nft_showcase' && (<div><h3 className="text-2xl font-bold mb-2 text-gray-900 dark:text-white">{translations.en.nftShowcaseTitle}</h3><p className="text-gray-600 dark:text-gray-400 mb-6">{translations.en.nftShowcaseDescription}</p><form onSubmit={handleSumbitNftShowcase} className="space-y-4"><input type="text" required placeholder="Title for your NFT" value={nftShowcaseForm.title} onChange={e => setNftShowcaseForm({...nftShowcaseForm, title: e.target.value})} className="w-full p-3 rounded-lg border-2 bg-gray-50 dark:bg-gray-700 border-gray-200 dark:border-gray-600"/><input type="url" required placeholder="Your NFT Image URL (e.g., from IPFS)" value={nftShowcaseForm.nftImageUrl} onChange={e => setNftShowcaseForm({...nftShowcaseForm, nftImageUrl: e.target.value})} className="w-full p-3 rounded-lg border-2 bg-gray-50 dark:bg-gray-700 border-gray-200 dark:border-gray-600"/><input type="url" required placeholder="Marketplace Link (e.g., OpenSea)" value={nftShowcaseForm.marketplaceLink} onChange={e => setNftShowcaseForm({...nftShowcaseForm, marketplaceLink: e.target.value})} className="w-full p-3 rounded-lg border-2 bg-gray-50 dark:bg-gray-700 border-gray-200 dark:border-gray-600"/><button type="submit" className="w-full bg-purple-600 text-white py-3 px-6 rounded-lg font-semibold hover:bg-purple-700">{translations.en.submitNftButton}</button></form></div>)}
                     {activeTab === 'submit' && (<div><h3 className="text-2xl font-bold mb-2 text-gray-900 dark:text-white">{translations.en.submitCouponTitle}</h3><p className="text-gray-600 dark:text-gray-400 mb-6">{translations.en.submitCouponDescription}</p><form onSubmit={handleSumbitVoucher} className="space-y-4"><input type="text" required placeholder={translations.en.requestProviderName} value={submitVoucherForm.provider} onChange={e => setSubmitVoucherForm({...submitVoucherForm, provider: e.target.value})} className="w-full p-3 rounded-lg border-2 bg-gray-50 dark:bg-gray-700 border-gray-200 dark:border-gray-600" /><input type="text" required placeholder={translations.en.formCouponCode} value={submitVoucherForm.voucherCode} onChange={e => setSubmitVoucherForm({...submitVoucherForm, voucherCode: e.target.value})} className="w-full p-3 rounded-lg border-2 bg-gray-50 dark:bg-gray-700 border-gray-200 dark:border-gray-600" /><input type="url" placeholder="Voucher Link (Optional)" value={submitVoucherForm.link} onChange={e => setSubmitVoucherForm({...submitVoucherForm, link: e.target.value})} className="w-full p-3 rounded-lg border-2 bg-gray-50 dark:bg-gray-700 border-gray-200 dark:border-gray-600" /><textarea placeholder={translations.en.formDescriptionPlaceholder} value={submitVoucherForm.description} onChange={e => setSubmitVoucherForm({...submitVoucherForm, description: e.target.value})} rows={3} className="w-full p-3 rounded-lg border-2 bg-gray-50 dark:bg-gray-700 border-gray-200 dark:border-gray-600"></textarea><button type="submit" className="w-full bg-green-600 text-white py-3 px-6 rounded-lg font-semibold hover:bg-green-700 disabled:opacity-50">{translations.en.submitCouponButton}</button></form></div>)}
                     {activeTab === 'request' && (<div><h3 className="text-2xl font-bold mb-2 text-gray-900 dark:text-white">{translations.en.requestTitle}</h3><p className="text-gray-600 dark:text-gray-400 mb-6">{translations.en.requestDealDescription}</p><form onSubmit={handleSumbitRequest} className="space-y-4"><select required value={requestForm.serviceType} onChange={e => setRequestForm({...requestForm, serviceType: e.target.value})} className="w-full p-3 rounded-lg border-2 bg-gray-50 dark:bg-gray-700 border-gray-200 dark:border-gray-600"><option value="">{translations.en.requestSelectService}</option>{['Web Hosting', 'WordPress Hosting', 'Cloud Hosting', 'VPS', 'VPN', 'Domain', 'Voucher', 'Digital Product', 'Service', 'SaaS', 'AI Tool', 'Uncategorized'].map((type: string) => <option key={type} value={type}>{type}</option>)}</select><input type="text" required placeholder={translations.en.requestProviderName} value={requestForm.providerName} onChange={e => setRequestForm({...requestForm, providerName: e.target.value})} className="w-full p-3 rounded-lg border-2 bg-gray-50 dark:bg-gray-700 border-gray-200 dark:border-gray-600" /><input type="email" required placeholder={translations.en.requestYourEmail} value={requestForm.userEmail} onChange={e => setRequestForm({...requestForm, userEmail: e.target.value})} className="w-full p-3 rounded-lg border-2 bg-gray-50 dark:bg-gray-700 border-gray-200 dark:border-gray-600" /><textarea placeholder={translations.en.requestDealPlaceholder} value={requestForm.additionalNotes} onChange={e => setRequestForm({...requestForm, additionalNotes: e.target.value})} rows={4} className="w-full p-3 rounded-lg border-2 bg-gray-50 dark:bg-gray-700 border-gray-200 dark:border-gray-600"></textarea><button type="submit" className="w-full bg-orange-600 text-white py-3 px-6 rounded-lg font-semibold hover:bg-orange-700">{translations.en.requestSubmitButton}</button></form></div>)}
