@@ -2,7 +2,7 @@
 /** @type {import('next').NextConfig} */
 
 const nextConfig = {
-  output: 'standalone', // Untuk deployment
+  // output: 'standalone', // Untuk deployment
   typescript: {
     ignoreBuildErrors: true,
   },

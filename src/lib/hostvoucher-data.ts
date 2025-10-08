@@ -31,7 +31,9 @@ const makeSerializable = (data: any): any => {
 
 export async function fetchData(type: string) {
     try {
-        const response = await fetch(`/api/data?type=${type}`);
+        const apiUrl = process.env.NEXT_PUBLIC_API_BASE_URL || '';
+        const url = `${apiUrl}/api/data?type=${type}`;
+        const response = await fetch(url);
         if (!response.ok) {
             throw new Error(`Failed to fetch ${type}`);
         }
