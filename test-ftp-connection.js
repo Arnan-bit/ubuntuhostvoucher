@@ -4,9 +4,9 @@ async function testFTPConnection() {
     console.log('🧪 Testing FTP Connection...');
     
     const ftpConfig = {
-        host: '41.216.185.84',
-        user: 'uploaderar@hostvocher.com',
-        password: '231191493ra@ptF'
+        host: process.env.FTP_HOST,
+        user: process.env.FTP_USER,
+        password: process.env.FTP_PASSWORD
     };
 
     console.log('🔧 FTP Config:', {

@@ -3,10 +3,10 @@
 const mysql = require('mysql2/promise');
 
 const dbConfig = {
-    host: '41.216.185.84',
-    user: 'hostvoch_webar',
-    password: 'Wizard@231191493',
-    database: 'hostvoch_webapp'
+    host: process.env.DB_HOST,
+    user: process.env.DB_USER,
+    password: process.env.DB_PASSWORD,
+    database: process.env.DB_DATABASE
 };
 
 async function addShakeAnimationFields() {

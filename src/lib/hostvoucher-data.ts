@@ -31,8 +31,13 @@ const makeSerializable = (data: any): any => {
 
 export async function fetchData(type: string) {
     try {
-        const apiUrl = process.env.NEXT_PUBLIC_API_BASE_URL || '';
-        const url = `${apiUrl}/api/data?type=${type}`;
+        let baseUrl = process.env.NEXT_PUBLIC_API_BASE_URL;
+
+        if (!baseUrl && process.env.VERCEL_URL) {
+            baseUrl = `https://${process.env.VERCEL_URL}`;
+        }
+
+        const url = baseUrl ? `${baseUrl}/api/data?type=${type}` : `/api/data?type=${type}`;
         const response = await fetch(url);
         if (!response.ok) {
             throw new Error(`Failed to fetch ${type}`);
