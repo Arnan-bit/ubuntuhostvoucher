@@ -4,9 +4,15 @@ import { existsSync } from 'fs';
 import path from 'path';
 
 // Image serving API with proper headers and caching
+interface Params {
+  params: {
+    path: string[];
+  };
+}
+
 export async function GET(
     request: NextRequest,
-    { params }: { params: { path: string[] } }
+    { params }: Params
 ) {
     try {
         // Reconstruct the file path from the dynamic route
