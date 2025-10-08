@@ -34,7 +34,8 @@ export async function fetchData(type: string) {
         let baseUrl = process.env.NEXT_PUBLIC_API_BASE_URL;
 
         if (!baseUrl && process.env.VERCEL_URL) {
-            baseUrl = `https://${process.env.VERCEL_URL}`;
+            // Ensure VERCEL_URL has a protocol for fetch to parse correctly
+            baseUrl = `https://${process.env.VERCEL_URL.replace(/^https?:\/\//, '')}`;
         }
 
         const url = baseUrl ? `${baseUrl}/api/data?type=${type}` : `/api/data?type=${type}`;
