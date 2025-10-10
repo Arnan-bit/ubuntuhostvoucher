@@ -164,9 +164,9 @@ const nextConfig = {
           destination: process.env.NODE_ENV === 'production'
             ? `${process.env.NEXT_PUBLIC_UPLOADS_URL}/:path*`  // Gunakan env variable
             : 'http://localhost:9001/uploads/:path*',
-        },
-      ];
-    }
+          },
+        ];
+      }, // <--- INI ADALAH KOMA YANG DIPERLUKAN
   // Headers keamanan
 async headers() {
     return [
