@@ -151,24 +151,24 @@ const nextConfig = {
       }
     ],
   },
-  async rewrites() {
-    return [
-      {
-        source: '/api/:path*',
-        destination: process.env.NODE_ENV === 'production'
-          ? 'https://api.your-domain.com/:path*'  // Ganti dengan domain API Anda
-          : 'http://localhost:5000/:path*'
-      },
-      {
-        source: '/uploads/:path*',
-        destination: process.env.NODE_ENV === 'production'
-          ? 'https://your-domain.com/uploads/:path*'  // Ganti dengan domain Anda
-          : 'http://localhost:9001/uploads/:path*',
-      },
-    ];
-  },
+    async rewrites() {
+      return [
+        {
+          source: '/api/:path*',
+          destination: process.env.NODE_ENV === 'production'
+            ? `${process.env.NEXT_PUBLIC_API_BASE_URL}/:path*`  // Gunakan env variable
+            : 'http://localhost:5000/:path*'
+        },
+        {
+          source: '/uploads/:path*',
+          destination: process.env.NODE_ENV === 'production'
+            ? `${process.env.NEXT_PUBLIC_UPLOADS_URL}/:path*`  // Gunakan env variable
+            : 'http://localhost:9001/uploads/:path*',
+        },
+      ];
+    }
   // Headers keamanan
-  async headers() {
+async headers() {
     return [
       {
         source: '/(.*)',

@@ -30,8 +30,10 @@ const EditorProfile = ({ siteAppearance, translations }: any) => {
 
     // Use admin panel image if available, otherwise use default
     const imageUrl = specialistImageUrl ?
-        (specialistImageUrl.startsWith('http') ? specialistImageUrl : `http://localhost:9001${specialistImageUrl}`)
-        : defaultImageUrl;
+    (specialistImageUrl.startsWith('http') 
+        ? specialistImageUrl 
+        : `${process.env.NEXT_PUBLIC_UPLOADS_URL || '/uploads'}${specialistImageUrl}`)
+    : defaultImageUrl;
 
     return (
         <div className="text-center md:text-left">

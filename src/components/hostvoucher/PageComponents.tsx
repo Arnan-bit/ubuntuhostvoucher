@@ -584,7 +584,7 @@ export const RequestAndSubmitPage = ({ translations, allDeals, siteSettings, min
     const uploadFileToCPanel = async (file: File): Promise<string> => {
         const formData = new FormData();
         formData.append('file', file);
-        const response = await fetch('http://localhost:8800/api/upload', { method: 'POST', body: formData });
+        const response = await fetch(`${process.env.NEXT_PUBLIC_API_BASE_URL}/upload`, { method: 'POST', body: formData });
         const result = await response.json();
         if (!response.ok || !result.success) throw new Error(result.error || 'Upload failed.');
         return result.url;

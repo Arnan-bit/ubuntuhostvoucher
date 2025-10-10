@@ -35,7 +35,8 @@ export async function fetchData(type: string) {
 
         if (!baseUrl && process.env.VERCEL_URL) {
             // VERCEL_URL does not include protocol, so explicitly add https://
-            baseUrl = `https://${process.env.VERCEL_URL}`;
+            // Ensure it's a valid URL for fetch
+            baseUrl = `https://${process.env.VERCEL_URL.replace(/^https?:\/\//, '')}`;
         }
 
         const url = baseUrl ? `${baseUrl}/api/data?type=${type}` : `/api/data?type=${type}`;

@@ -24,7 +24,13 @@ const app = express();
 app.use(express.json({ limit: '10mb' }));
 app.use(express.urlencoded({ limit: '10mb', extended: true }));
 app.use(cors({
-    origin: ["http://localhost:3000", "https://hostvocher.com", "http://localhost:9002"], // Ganti dengan domain Anda
+    origin: [
+        "http://localhost:3000", 
+        "http://localhost:9002",
+        "https://hostvocher.com",
+        process.env.NEXT_PUBLIC_VERCEL_URL ? `https://${process.env.NEXT_PUBLIC_VERCEL_URL}` : null,
+        process.env.VERCEL_URL ? `https://${process.env.VERCEL_URL}` : null
+    ].filter(Boolean),
     credentials: true
 }));
 app.use(cookieParser());

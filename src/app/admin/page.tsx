@@ -92,9 +92,9 @@ const uploadFileToCPanel = async (file: File, showNotification?: Function): Prom
                 showNotification('Primary upload failed, trying fallback...', 'warning');
             }
 
-            const fallbackResponse = await fetch('http://localhost:9003/api/upload', {
-                method: 'POST',
-                body: formData
+            const fallbackResponse = await fetch(`${process.env.NEXT_PUBLIC_API_BASE_URL}/upload`, {
+             method: 'POST',
+             body: formData
             });
 
             const fallbackResult = await fallbackResponse.json();

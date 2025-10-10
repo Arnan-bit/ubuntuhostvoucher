@@ -90,8 +90,9 @@ export async function POST(request: Request) {
 
             // Return the public URL (relative to public folder)
             const publicUrl = `/uploads/${category}/${filename}`;
-            const fullUrl = `${process.env.NEXT_PUBLIC_BASE_URL || 'http://localhost:9002'}${publicUrl}`;
-
+            const fullUrl = `${process.env.NEXT_PUBLIC_BASE_URL || process.env.VERCEL_URL ? `https://${process.env.VERCEL_URL}` : 'http://localhost:9002'}${publicUrl}`;//testing
+            //const fullUrl = `${process.env.NEXT_PUBLIC_BASE_URL || 'http://localhost:9002'}${publicUrl}`;
+            //const fullUrl = `${process.env.NEXT_PUBLIC_BASE_URL || process.env.VERCEL_URL ? `https://${process.env.VERCEL_URL}` : 'http://localhost:9002'}${publicUrl}`;
             console.log('🌐 URLs:', {
                 public: publicUrl,
                 full: fullUrl
