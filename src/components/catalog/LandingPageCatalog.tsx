@@ -168,7 +168,7 @@ export const LandingPageCatalog: React.FC<LandingPageCatalogProps> = ({
 
     const handleItemClick = (item: CatalogItem) => {
         // Track click
-        fetch('/api/track-click', {
+        fetch('/api/actions?type=track-click', {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify({

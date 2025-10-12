@@ -1,7 +1,7 @@
 // src/app/blog/[slug]/page.tsx
-// This file has been restored and fixed to resolve all build errors.
+// Fixed to use direct database access during build time
 
-import { getBlogPosts } from '@/lib/hostvoucher-data';
+import { getBlogPostsFromDb } from '@/lib/db';
 import { notFound } from 'next/navigation';
 import Link from 'next/link';
 import { Metadata } from 'next';
@@ -13,15 +13,16 @@ type Props = {
 };
 
 // This function tells Next.js which slugs (blog post IDs) to pre-render.
+// FIXED: Now uses direct database access instead of fetch
 export async function generateStaticParams() {
     try {
-        const posts: any[] = await getBlogPosts();
+        const posts: any[] = await getBlogPostsFromDb();
         if (!Array.isArray(posts)) {
-            console.warn("getBlogPosts did not return an array, returning empty for static params.");
+            console.warn("getBlogPostsFromDb did not return an array, returning empty for static params.");
             return [];
         }
         return posts.map((post) => ({
-            slug: post.id,
+            slug: String(post.id),
         }));
     } catch (error) {
         console.error("Critical error in generateStaticParams for blog:", error);
@@ -31,24 +32,29 @@ export async function generateStaticParams() {
 
 // This function generates the metadata for the page.
 export async function generateMetadata({ params }: Props): Promise<Metadata> {
-    const posts: any[] = await getBlogPosts();
-    const post = posts.find((p) => p.id === params.slug);
+    try {
+        const posts: any[] = await getBlogPostsFromDb();
+        const post = posts.find((p) => String(p.id) === params.slug);
 
-    if (!post) {
-        return { title: 'Post Not Found' };
+        if (!post) {
+            return { title: 'Post Not Found' };
+        }
+
+        return {
+            title: post.title,
+            description: post.content ? post.content.substring(0, 160) : 'Blog post from HostVoucher',
+        };
+    } catch (error) {
+        console.error("Error generating metadata for blog:", error);
+        return { title: 'Blog Post' };
     }
-
-    return {
-        title: post.title,
-        description: post.content ? post.content.substring(0, 160) : 'Blog post from HostVoucher',
-    };
 }
 
 
 // Main component for the blog post page.
 export default async function BlogPostPage({ params }: Props) {
-    const posts: any[] = await getBlogPosts();
-    const post = posts.find((p) => p.id === params.slug);
+    const posts: any[] = await getBlogPostsFromDb();
+    const post = posts.find((p) => String(p.id) === params.slug);
 
     if (!post) {
         notFound();
