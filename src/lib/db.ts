@@ -7,11 +7,9 @@ const dbConfig = {
   host: process.env.DB_HOST || 'localhost',
   user: process.env.DB_USER,
   password: process.env.DB_PASSWORD,
-  database: process.env.DB_DATABASE,
+  database: process.env.DB_DATABASE || process.env.DB_NAME,
   port: 3306,
   connectionLimit: 5, // Limit concurrent connections
-  acquireTimeout: 60000,
-  timeout: 60000,
   reconnect: true,
   idleTimeout: 300000,
   queueLimit: 0
