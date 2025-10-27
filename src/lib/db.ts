@@ -46,17 +46,14 @@ export async function getBlogPostsFromDb() {
 }
 
 export async function getDealsFromDb() {
-    // --- TAMBAHKAN LOG DIAGNOSTIK INI ---
-    console.log(`\n--- [${new Date().toISOString()}] Mencoba mengambil produk ---`);
-    console.log("Menggunakan DB_HOST:", process.env.DB_HOST);
-    console.log("Menggunakan DB_USER:", process.env.DB_USER);
-    console.log("Menggunakan DB_DATABASE:", process.env.DB_DATABASE || process.env.DB_NAME);
-    console.log("Password Disediakan:", process.env.DB_PASSWORD ? 'Ya' : 'TIDAK!');
-    console.log("-------------------------------------------\n");
-    // --- BATAS LOG DIAGNOSTIK ---
   try {
-    const results = await query({ query: 'SELECT * FROM products ORDER BY catalog_number DESC' }) as any[];
-    console.log(`Query berhasil, ditemukan ${results.length} produk.`); // Log hasil
+    const sqlQuery = 'SELECT * FROM products ORDER BY catalog_number DESC';
+    console.log(`[${new Date().toISOString()}] MENCOBA MENJALANKAN QUERY PRODUK...`);
+    console.log("Query SQL:", sqlQuery);
+
+    const results = await query({ query: sqlQuery }) as any[];
+    
+    console.log(`[${new Date().toISOString()}] QUERY BERHASIL. Ditemukan ${results.length} produk.`);
     // Parse JSON fields and ensure rating/num_reviews are numbers
     return results.map((product: any) => ({
       ...product,
@@ -71,9 +68,8 @@ export async function getDealsFromDb() {
       is_featured: product.is_featured ? Boolean(product.is_featured) : false
     }));
   } catch (error: any) {
-    console.error("!!! ERROR SAAT QUERY DATABASE:", error.message); // Log error query
-    console.error("Error fetching deals from database:", error.message);
-    return [];
+    console.error(`[${new Date().toISOString()}] !!! ERROR SAAT QUERY PRODUK:`, error.message);
+    throw error;
   }
 }
 
