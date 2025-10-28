@@ -48,9 +48,9 @@ async function testUploadFunctionality() {
     // Test 3: Check FTP configuration
     console.log('\n3. Testing FTP configuration...');
     const ftpConfig = {
-        host: process.env.FTP_HOST || '41.216.185.84',
-        user: process.env.FTP_USER || 'uploaderar@hostvocher.com',
-        uploadsUrl: process.env.NEXT_PUBLIC_UPLOADS_URL || 'https://hostvocher.com/uploads/images'
+        host: process.env.FTP_HOST,
+        user: process.env.FTP_USER,
+        uploadsUrl: process.env.NEXT_PUBLIC_UPLOADS_URL
     };
     
     console.log('   FTP Config:');
