@@ -54,7 +54,7 @@ INSERT INTO `achievements` (`id`, `daily_value`, `daily_date`, `monthly_value`, 
 --
 
 CREATE TABLE `blog_posts` (
-  `id` varchar(36) NOT NULL DEFAULT uuid(),
+  `id` varchar(36) NOT NULL DEFAULT (uuid()),
   `title` varchar(255) NOT NULL,
   `content` text DEFAULT NULL,
   `image_url` varchar(500) DEFAULT NULL,
@@ -70,7 +70,7 @@ CREATE TABLE `blog_posts` (
 --
 
 CREATE TABLE `campaign_analytics` (
-  `id` varchar(36) NOT NULL DEFAULT uuid(),
+  `id` varchar(36) NOT NULL DEFAULT (uuid()),
   `campaign_id` varchar(36) DEFAULT NULL,
   `visitor_id` varchar(36) DEFAULT NULL,
   `conversion_type` varchar(50) DEFAULT NULL,
@@ -85,7 +85,7 @@ CREATE TABLE `campaign_analytics` (
 --
 
 CREATE TABLE `click_events` (
-  `id` varchar(36) NOT NULL DEFAULT uuid(),
+  `id` varchar(36) NOT NULL DEFAULT (uuid()),
   `product_id` varchar(36) DEFAULT NULL,
   `product_name` varchar(255) DEFAULT NULL,
   `product_type` varchar(100) DEFAULT NULL,
@@ -102,7 +102,7 @@ CREATE TABLE `click_events` (
 --
 
 CREATE TABLE `deal_requests` (
-  `id` varchar(36) NOT NULL DEFAULT uuid(),
+  `id` varchar(36) NOT NULL DEFAULT (uuid()),
   `user_email` varchar(255) DEFAULT NULL,
   `service_type` varchar(100) DEFAULT NULL,
   `provider_name` varchar(255) DEFAULT NULL,
@@ -211,7 +211,7 @@ INSERT INTO `email_marketing` (`id`, `email`, `name`, `phone`, `source`, `tags`,
 --
 
 CREATE TABLE `gamification_users` (
-  `id` varchar(36) NOT NULL DEFAULT uuid(),
+  `id` varchar(36) NOT NULL DEFAULT (uuid()),
   `email` varchar(255) DEFAULT NULL,
   `eth_address` varchar(255) DEFAULT NULL,
   `points` int(11) DEFAULT 0,
@@ -229,7 +229,7 @@ CREATE TABLE `gamification_users` (
 --
 
 CREATE TABLE `hostvoucher_testimonials` (
-  `id` varchar(36) NOT NULL DEFAULT uuid(),
+  `id` varchar(36) NOT NULL DEFAULT (uuid()),
   `name` varchar(255) DEFAULT NULL,
   `email` varchar(255) DEFAULT NULL,
   `testimonial` text DEFAULT NULL,
@@ -244,7 +244,7 @@ CREATE TABLE `hostvoucher_testimonials` (
 --
 
 CREATE TABLE `marketing_campaigns` (
-  `id` varchar(36) NOT NULL DEFAULT uuid(),
+  `id` varchar(36) NOT NULL DEFAULT (uuid()),
   `campaign_name` varchar(255) DEFAULT NULL,
   `campaign_source` varchar(100) DEFAULT NULL,
   `campaign_medium` varchar(100) DEFAULT NULL,
@@ -270,7 +270,7 @@ CREATE TABLE `marketing_campaigns` (
 --
 
 CREATE TABLE `mining_tasks` (
-  `id` varchar(36) NOT NULL DEFAULT uuid(),
+  `id` varchar(36) NOT NULL DEFAULT (uuid()),
   `title` varchar(255) DEFAULT NULL,
   `description` text DEFAULT NULL,
   `points` int(11) DEFAULT 0,
@@ -299,7 +299,7 @@ INSERT INTO `mining_tasks` (`id`, `title`, `description`, `points`, `icon`, `ico
 --
 
 CREATE TABLE `newsletter_subscriptions` (
-  `id` varchar(36) NOT NULL DEFAULT uuid(),
+  `id` varchar(36) NOT NULL DEFAULT (uuid()),
   `email` varchar(255) DEFAULT NULL,
   `subscribed_at` timestamp NULL DEFAULT current_timestamp()
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1 COLLATE=latin1_swedish_ci;
@@ -328,7 +328,7 @@ CREATE TABLE `nft_redemption_requests` (
 --
 
 CREATE TABLE `nft_showcase` (
-  `id` varchar(36) NOT NULL DEFAULT uuid(),
+  `id` varchar(36) NOT NULL DEFAULT (uuid()),
   `title` varchar(255) DEFAULT NULL,
   `nft_image_url` varchar(500) DEFAULT NULL,
   `marketplace_link` varchar(500) DEFAULT NULL,
@@ -343,7 +343,7 @@ CREATE TABLE `nft_showcase` (
 --
 
 CREATE TABLE `page_views` (
-  `id` varchar(36) NOT NULL DEFAULT uuid(),
+  `id` varchar(36) NOT NULL DEFAULT (uuid()),
   `visitor_id` varchar(36) DEFAULT NULL,
   `session_id` varchar(100) DEFAULT NULL,
   `page_url` varchar(500) DEFAULT NULL,
@@ -392,7 +392,7 @@ CREATE TABLE `payments` (
 --
 
 CREATE TABLE `products` (
-  `id` varchar(36) NOT NULL DEFAULT uuid(),
+  `id` varchar(36) NOT NULL DEFAULT (uuid()),
   `name` varchar(255) NOT NULL,
   `title` varchar(255) DEFAULT NULL,
   `provider` varchar(255) DEFAULT NULL,
@@ -597,7 +597,7 @@ INSERT INTO `settings` (`id`, `theme`, `ga_id`, `fb_pixel_id`, `catalog_number_p
 --
 
 CREATE TABLE `submitted_vouchers` (
-  `id` varchar(36) NOT NULL DEFAULT uuid(),
+  `id` varchar(36) NOT NULL DEFAULT (uuid()),
   `provider` varchar(255) DEFAULT NULL,
   `voucher_code` varchar(255) DEFAULT NULL,
   `description` text DEFAULT NULL,
@@ -613,7 +613,7 @@ CREATE TABLE `submitted_vouchers` (
 --
 
 CREATE TABLE `template_categories` (
-  `id` varchar(36) NOT NULL DEFAULT uuid(),
+  `id` varchar(36) NOT NULL DEFAULT (uuid()),
   `name` varchar(100) NOT NULL,
   `description` text DEFAULT NULL,
   `icon` varchar(50) DEFAULT NULL,
@@ -640,7 +640,7 @@ INSERT INTO `template_categories` (`id`, `name`, `description`, `icon`, `sort_or
 --
 
 CREATE TABLE `template_downloads` (
-  `id` varchar(36) NOT NULL DEFAULT uuid(),
+  `id` varchar(36) NOT NULL DEFAULT (uuid()),
   `template_id` varchar(36) NOT NULL,
   `user_email` varchar(255) NOT NULL,
   `download_count` int(11) DEFAULT 1,
@@ -656,7 +656,7 @@ CREATE TABLE `template_downloads` (
 --
 
 CREATE TABLE `template_purchases` (
-  `id` varchar(36) NOT NULL DEFAULT uuid(),
+  `id` varchar(36) NOT NULL DEFAULT (uuid()),
   `template_id` varchar(36) NOT NULL,
   `user_email` varchar(255) NOT NULL,
   `purchase_price` decimal(10,2) NOT NULL,
@@ -673,7 +673,7 @@ CREATE TABLE `template_purchases` (
 --
 
 CREATE TABLE `testimonials` (
-  `id` varchar(36) NOT NULL DEFAULT uuid(),
+  `id` varchar(36) NOT NULL DEFAULT (uuid()),
   `name` varchar(255) DEFAULT NULL,
   `role` varchar(255) DEFAULT NULL,
   `review` text DEFAULT NULL,
@@ -741,7 +741,7 @@ CREATE TABLE `user_purchases` (
 --
 
 CREATE TABLE `visitor_analytics` (
-  `id` varchar(36) NOT NULL DEFAULT uuid(),
+  `id` varchar(36) NOT NULL DEFAULT (uuid()),
   `ip_address` varchar(45) DEFAULT NULL,
   `country` varchar(100) DEFAULT NULL,
   `country_code` varchar(2) DEFAULT NULL,
@@ -779,7 +779,7 @@ CREATE TABLE `visitor_analytics` (
 --
 
 CREATE TABLE `website_templates` (
-  `id` varchar(36) NOT NULL DEFAULT uuid(),
+  `id` varchar(36) NOT NULL DEFAULT (uuid()),
   `name` varchar(255) NOT NULL,
   `category` varchar(100) NOT NULL,
   `description` text DEFAULT NULL,
