@@ -2,19 +2,19 @@
 'use client';
 
 // =================================================================================
-// HOSTVOUCHER - ADMIN PANEL PAGE (app/admin/page.tsx) - MySQL Integrated
+// HOSTVOUCHER - ADMIN PANEL PAGE (app/admin/page.tsx) - Hybrid Auth
 // =================================================================================
 // Halaman ini berfungsi sebagai pusat kendali operasional untuk seluruh website.
-// Semua pengambilan data sekarang terintegrasi penuh dengan API /api/data (MySQL).
+// Auth: Firebase (client-side) -> JWT exchange (server) -> MySQL API calls
+// Semua pengambilan data terintegrasi penuh dengan API /api/data (MySQL).
 // Semua tindakan (simpan/hapus) terintegrasi dengan API /api/action (MySQL).
 
 import React, { useState, useEffect, useMemo, useRef, useCallback } from 'react';
-import type { User } from 'firebase/auth';
-import { app, auth } from '@/lib/firebase-client';
+import { signInWithEmailAndPassword, signOut } from 'firebase/auth';
+import { auth } from '@/lib/firebase-client';
 import * as dataApi from '@/lib/hostvoucher-data';
 import { useClientData } from '@/hooks/use-client-data';
 import * as apiClient from '@/lib/api-client';
-import { onAuthStateChanged, signInWithEmailAndPassword, signOut } from 'firebase/auth';
 import {
     AdminSidebar,
     DashboardView,
@@ -946,61 +946,89 @@ export default function AdminPage() {
     useEffect(() => {
         let mounted = true;
 
-        // Set a timeout to prevent infinite loading
-        const timeoutId = setTimeout(() => {
+        // Check for existing JWT token
+        const checkAuth = async () => {
+            const token = localStorage.getItem('adminToken');
+            const userEmail = localStorage.getItem('adminEmail');
+            
+            if (token && userEmail && AUTHORIZED_EMAILS.includes(userEmail)) {
+                setUser({ email: userEmail } as any);
+                setIsAuthorized(true);
+            } else {
+                setUser(null);
+                setIsAuthorized(false);
+            }
+            
             if (mounted) {
                 setLoadingAuthState(false);
             }
-        }, 5000);
-
-        if (!auth) {
-            if (mounted) setLoadingAuthState(false);
-            clearTimeout(timeoutId);
-            return;
-        }
-
-        const unsubscribe = onAuthStateChanged(auth, (currentUser) => {
-            if (!mounted) return;
-
-            try {
-                if (currentUser && AUTHORIZED_EMAILS.includes(currentUser.email!)) {
-                    setUser(currentUser);
-                    setIsAuthorized(true);
-                } else {
-                    setUser(null);
-                    setIsAuthorized(false);
-                    if (currentUser) {
-                        signOut(auth).catch(console.error);
-                    }
-                }
-            } catch (error) {
-                console.error('Auth state change error:', error);
-                setUser(null);
-                setIsAuthorized(false);
-            } finally {
-                setLoadingAuthState(false);
-                clearTimeout(timeoutId);
-            }
-        });
-
+        };
+        
+        checkAuth();
+        
         return () => {
             mounted = false;
-            clearTimeout(timeoutId);
-            unsubscribe();
         };
     }, []);
 
     const handleLogin = async (e: React.FormEvent) => {
-        e.preventDefault(); setAuthError(null);
-        if (!AUTHORIZED_EMAILS.includes(email)) { setAuthError("This email is not authorized for admin access."); return; }
-        try { await signInWithEmailAndPassword(auth, email, password); } 
-        catch (err: any) { setAuthError("Login failed. Please check your email and password."); }
+        e.preventDefault();
+        setAuthError(null);
+        
+        if (!AUTHORIZED_EMAILS.includes(email)) {
+            setAuthError("This email is not authorized for admin access.");
+            return;
+        }
+        
+        try {
+            // Step 1: Sign in with Firebase
+            const userCredential = await signInWithEmailAndPassword(auth, email, password);
+            const idToken = await userCredential.user.getIdToken(true);
+            
+            // Step 2: Exchange Firebase ID token for server JWT
+            const response = await fetch('/api/auth/firebase-login', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ idToken })
+            });
+            
+            const data = await response.json();
+            
+            if (!response.ok) {
+                setAuthError(data.error || "Login failed. Please check your email and password.");
+                return;
+            }
+            
+            // Store server JWT token and email
+            localStorage.setItem('adminToken', data.token);
+            localStorage.setItem('adminEmail', email);
+            
+            setUser({ email } as any);
+            setIsAuthorized(true);
+            setEmail('');
+            setPassword('');
+        } catch (err: any) {
+            setAuthError(err.message || "Login failed. Please check your email and password.");
+            console.error('Login error:', err);
+        }
     };
     
     const handleLogout = async () => {
-        if (!auth) return;
-        try { await signOut(auth); setUser(null); setIsAuthorized(false); setEmail(''); setPassword(''); } 
-        catch (error) { setAuthError("Failed to log out."); }
+        try {
+            // Sign out from Firebase
+            await signOut(auth);
+            
+            // Clear stored JWT token
+            localStorage.removeItem('adminToken');
+            localStorage.removeItem('adminEmail');
+            
+            setUser(null);
+            setIsAuthorized(false);
+            setEmail('');
+            setPassword('');
+        } catch (error) {
+            setAuthError("Failed to log out.");
+        }
     };
 
     if (loadingAuthState) {

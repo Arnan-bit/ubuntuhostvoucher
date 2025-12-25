@@ -1,0 +1,26 @@
+
+rules_version = '2';
+
+service cloud.firestore {
+  match /databases/{database}/documents {
+
+    // Helper function to check if a user is an authenticated admin
+    function isAdmin() {
+      return request.auth != null;
+    }
+
+    // Secure the artifacts collection
+    match /artifacts/{appId}/{dataType}/{subCollection}/{document=**} {
+      // Admins have full access to all data
+      allow read, write: if isAdmin();
+      
+      // Public users can only read from the 'public' data collection
+      allow get: if dataType == 'public';
+    }
+
+    // Fallback rule: Deny all other access to any other path
+    match /{document=**} {
+      allow read, write: if false;
+    }
+  }
+}

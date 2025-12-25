@@ -27,7 +27,7 @@ app.use(cors({
     origin: [
         "http://localhost:3000", 
         "http://localhost:9002",
-        "https://hostvocher.com",
+        "https://hostvoucher.com",
         process.env.NEXT_PUBLIC_VERCEL_URL ? `https://${process.env.NEXT_PUBLIC_VERCEL_URL}` : null,
         process.env.VERCEL_URL ? `https://${process.env.VERCEL_URL}` : null
     ].filter(Boolean),

@@ -22,8 +22,6 @@ import { getProductImage, getTestimonialImage, getImageProps } from '@/lib/image
 import { Share2, Sparkles, Link as LinkIcon, Twitter, Facebook, Instagram, MessageCircle, Youtube, Linkedin, Twitch, Github, Shell, Dribbble, Star as LucideStar, Users, ThumbsUp } from 'lucide-react';
 import { useToast } from "@/hooks/use-toast";
 import { motion, AnimatePresence } from 'framer-motion';
-import { addDoc, collection, serverTimestamp } from 'firebase/firestore';
-import { db } from '@/lib/firebase-client';
 import { Button } from '@/components/ui/button';
 import { PriceDisplay } from '@/components/ui/PriceDisplay';
 
@@ -175,23 +173,25 @@ export const useAnimation = (dealIds: string[], animationSettings: any, currentP
 
 
 const logClickEvent = async (product: any) => {
-    if (!db) return;
     try {
-        // In a real application, you'd get the IP from the backend
-        // and enrich it with geo-location data there for security and accuracy.
+        // Log click to MySQL backend via API
         const res = await fetch('https://ipapi.co/json/');
         const geoData = await res.json();
         
-        await addDoc(collection(db, `artifacts/${appId}/public/data/click_events`), {
-            productId: product.id,
-            productName: product.name || product.title,
-            productType: product.type || 'N/A',
-            timestamp: serverTimestamp(),
-            referrer: document.referrer || 'Direct',
-            userAgent: navigator.userAgent,
-            ipAddress: geoData.ip || '0.0.0.0',
-            country: geoData.country_name || 'Unknown',
-            city: geoData.city || 'Unknown',
+        // Send to backend API endpoint
+        await fetch('/api/click-events', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({
+                productId: product.id,
+                productName: product.name || product.title,
+                productType: product.type || 'N/A',
+                referrer: document.referrer || 'Direct',
+                userAgent: navigator.userAgent,
+                ipAddress: geoData.ip || '0.0.0.0',
+                country: geoData.country_name || 'Unknown',
+                city: geoData.city || 'Unknown',
+            })
         });
     } catch (error) {
         console.error("Error logging click event:", error);

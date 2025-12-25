@@ -1,4 +1,4 @@
-# 🚀 HOSTING SETUP GUIDE - HostVoucher Website
+# 🚀 HOSTING SETUP GUIDE - HostVoucher Website (MySQL Only)
 
 ## 📋 **CHECKLIST SEBELUM HOSTING**
 
@@ -6,22 +6,21 @@
 
 **File yang perlu diubah untuk production:**
 
-#### **A. Environment Variables (.env.local)**
+#### **A. Environment Variables (.env.local / .env.production)**
 ```bash
-# DATABASE PRODUCTION
+# DATABASE PRODUCTION (MYSQL)
 DB_HOST=your-production-host.com
 DB_USER=your_production_user
 DB_PASSWORD=your_production_password
 DB_NAME=your_production_database
 DB_PORT=3306
 
-# FIREBASE PRODUCTION
-NEXT_PUBLIC_FIREBASE_API_KEY=your_production_api_key
-NEXT_PUBLIC_FIREBASE_AUTH_DOMAIN=your_production_auth_domain
-NEXT_PUBLIC_FIREBASE_PROJECT_ID=your_production_project_id
-NEXT_PUBLIC_FIREBASE_STORAGE_BUCKET=your_production_storage_bucket
-NEXT_PUBLIC_FIREBASE_MESSAGING_SENDER_ID=your_production_sender_id
-NEXT_PUBLIC_FIREBASE_APP_ID=your_production_app_id
+# API Configuration
+NEXT_PUBLIC_API_BASE_URL=https://yourdomain.com/api
+NEXT_PUBLIC_BASE_URL=https://yourdomain.com
+
+# JWT Secret (for admin authentication)
+JWT_SECRET=your-very-long-random-secret-key-min-32-chars
 
 # SITE URL
 NEXT_PUBLIC_SITE_URL=https://yourdomain.com
@@ -30,6 +29,7 @@ NEXT_PUBLIC_SITE_URL=https://yourdomain.com
 #### **B. Database Connection Files**
 - `src/lib/db.ts` - Sudah menggunakan environment variables ✅
 - `src/lib/hostvoucher-data.ts` - Sudah menggunakan environment variables ✅
+- `api/utils/db.js` - MySQL connection pool sudah siap ✅
 
 ### ✅ **2. NEXT.JS CONFIGURATION**
 
@@ -38,13 +38,10 @@ NEXT_PUBLIC_SITE_URL=https://yourdomain.com
 /** @type {import('next').NextConfig} */
 const nextConfig = {
   output: 'standalone', // Untuk hosting yang mendukung
-  // atau
-  // output: 'export', // Untuk static hosting
   
   images: {
     domains: [
       'yourdomain.com',
-      'firebasestorage.googleapis.com',
       'placehold.co'
     ],
   },
@@ -125,17 +122,20 @@ mysql -u production_user -p production_db < hostvoucher_backup.sql
 - ❌ Never commit .env files
 - ✅ Use hosting provider's environment variables
 - ✅ Different credentials for production
+- ✅ JWT_SECRET for admin authentication
 
 #### **B. Database Security**
-- ✅ Strong passwords
+- ✅ Strong MySQL passwords
 - ✅ Limited user permissions
 - ✅ SSL connections
 - ✅ Regular backups
+- ✅ IP whitelisting for database access
 
-#### **C. Firebase Security**
-- ✅ Production Firebase project
-- ✅ Proper security rules
-- ✅ Domain restrictions
+#### **C. API Security**
+- ✅ CORS properly configured
+- ✅ JWT validation on protected routes
+- ✅ Rate limiting
+- ✅ Input validation
 
 ### ✅ **7. PERFORMANCE OPTIMIZATION**
 
@@ -158,10 +158,12 @@ npm run analyze
 #### **A. Error Tracking**
 - **Sentry** for error monitoring
 - **LogRocket** for user sessions
+- **Backend logs** via MySQL queries
 
 #### **B. Analytics**
-- **Google Analytics 4**
-- **Vercel Analytics** (if using Vercel)
+- **Google Analytics 4** for website tracking
+- **Click events** tracked in MySQL `click_events` table
+- **Admin activity logs** in database
 
 ---
 
@@ -186,13 +188,15 @@ npm run analyze
 
 - **Vercel Support**: https://vercel.com/support
 - **PlanetScale**: https://planetscale.com/support
-- **Firebase**: https://firebase.google.com/support
+- **PlanetScale**: https://planetscale.com/support
+- **MySQL Documentation**: https://dev.mysql.com/doc/
 
 ---
 
 **🎯 NEXT STEPS:**
-1. Choose hosting provider
-2. Setup production database
-3. Configure environment variables
+1. Choose hosting provider (Vercel recommended)
+2. Setup production MySQL database
+3. Configure JWT_SECRET and database credentials
 4. Deploy and test
-5. Setup domain and SSL
+5. Setup domain and SSL certificate
+6. Verify MySQL-only operation (no Firebase)

@@ -10,29 +10,12 @@
 import React, { useState, useEffect, useMemo, useRef, useCallback } from 'react';
 import { Switch } from "@/components/ui/switch";
 import Image from 'next/image';
-import type { User } from 'firebase/auth';
-import { app, auth } from '@/lib/firebase-client';
+import { signInWithEmailAndPassword, signOut } from 'firebase/auth';
+import { auth } from '@/lib/firebase-client';
 import Link from 'next/link';
 import * as dataApi from '@/lib/hostvoucher-data';
 import { useClientData } from '@/hooks/use-client-data';
 import * as apiClient from '@/lib/api-client';
-import {
-    BlogManagement,
-    NewsletterView,
-    SiteAppearancePage,
-    IntegrationsPage,
-    GlobalSettingsPage,
-    UploadManager,
-    DigitalStrategyImagesPage,
-    AdvancedGamificationManager,
-    EnhancedBannerRotationManager,
-    ProfessionalCatalogImageManager,
-    LandingPageManager
-} from '@/app/admin/AdminComponents';
-import { CharitableDonationSettings } from '@/components/charity/CharitableDonationSettings';
-
-// --- Third-Party Libraries ---
-import { onAuthStateChanged, signInWithEmailAndPassword, signOut } from 'firebase/auth';
 import { motion, AnimatePresence } from 'framer-motion';
 import {
     LayoutDashboard, PlusCircle, Link2, Menu, X, Trash2, ExternalLink, Edit, Save,
@@ -733,7 +716,7 @@ const SettingsDashboard = ({ onLogout, userId }: { onLogout: () => void; userId:
 // BAGIAN 3: KOMPONEN UTAMA HALAMAN (ORKESTRATOR)
 // =================================================================================
 export default function SettingsPage() {
-    const [user, setUser] = useState<User | null>(null);
+    const [user, setUser] = useState<{email: string} | null>(null);
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
     const [authError, setAuthError] = useState<string | null>(null);
@@ -741,29 +724,91 @@ export default function SettingsPage() {
     const [isAuthorized, setIsAuthorized] = useState(false);
 
     useEffect(() => {
-        if (!auth) { setLoadingAuthState(false); return; }
-        const unsubscribe = onAuthStateChanged(auth, (currentUser) => {
-            if (currentUser && AUTHORIZED_EMAILS.includes(currentUser.email!)) {
-                setUser(currentUser); setIsAuthorized(true);
+        let mounted = true;
+        
+        // Check for existing JWT token
+        const checkAuth = async () => {
+            const token = localStorage.getItem('adminToken');
+            const userEmail = localStorage.getItem('adminEmail');
+            
+            if (token && userEmail && AUTHORIZED_EMAILS.includes(userEmail)) {
+                setUser({ email: userEmail });
+                setIsAuthorized(true);
             } else {
-                setUser(null); setIsAuthorized(false); if (currentUser) { signOut(auth); }
+                setUser(null);
+                setIsAuthorized(false);
             }
-            setLoadingAuthState(false);
-        });
-        return () => unsubscribe();
+            
+            if (mounted) {
+                setLoadingAuthState(false);
+            }
+        };
+        
+        checkAuth();
+        
+        return () => {
+            mounted = false;
+        };
     }, []);
 
     const handleLogin = async (e: React.FormEvent) => {
-        e.preventDefault(); setAuthError(null);
-        if (!AUTHORIZED_EMAILS.includes(email)) { setAuthError("This email is not authorized for admin access."); return; }
-        try { await signInWithEmailAndPassword(auth, email, password); } 
-        catch (err: any) { setAuthError("Login failed. Please check your email and password."); }
+        e.preventDefault();
+        setAuthError(null);
+        
+        if (!AUTHORIZED_EMAILS.includes(email)) {
+            setAuthError("This email is not authorized for admin access.");
+            return;
+        }
+        
+        try {
+            // Step 1: Sign in with Firebase
+            const userCredential = await signInWithEmailAndPassword(auth, email, password);
+            const idToken = await userCredential.user.getIdToken(true);
+            
+            // Step 2: Exchange Firebase ID token for server JWT
+            const response = await fetch('/api/auth/firebase-login', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ idToken })
+            });
+            
+            const data = await response.json();
+            
+            if (!response.ok) {
+                setAuthError(data.error || "Login failed. Please check your email and password.");
+                return;
+            }
+            
+            // Store server JWT token
+            localStorage.setItem('adminToken', data.token);
+            localStorage.setItem('adminEmail', email);
+            
+            setUser({ email });
+            setIsAuthorized(true);
+            setEmail('');
+            setPassword('');
+        } catch (err: any) {
+            setAuthError(err.message || "Login failed. Please check your email and password.");
+            console.error('Login error:', err);
+        }
     };
     
     const handleLogout = async () => {
-        if (!auth) return;
-        try { await signOut(auth); setUser(null); setIsAuthorized(false); setEmail(''); setPassword(''); } 
-        catch (error) { setAuthError("Failed to log out."); }
+        try {
+            // Sign out from Firebase
+            await signOut(auth);
+            
+            // Clear stored JWT token
+            localStorage.removeItem('adminToken');
+            localStorage.removeItem('adminEmail');
+            
+            setUser(null);
+            setIsAuthorized(false);
+            setEmail('');
+            setPassword('');
+        } catch (error) {
+            setAuthError("Failed to log out.");
+        }
     };
 
     if (loadingAuthState) {
@@ -786,5 +831,5 @@ export default function SettingsPage() {
         );
     }
     
-    return <SettingsDashboard onLogout={handleLogout} userId={user?.uid || null} />;
+    return <SettingsDashboard onLogout={handleLogout} userId={user?.email || null} />;
 }

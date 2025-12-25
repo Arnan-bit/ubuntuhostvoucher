@@ -1,6 +1,7 @@
 'use client';
 
 import React, { useState, useEffect } from 'react';
+import mockProducts from '../../../data/mock-products.json'; // Adjust path as needed
 import { ResponsiveCatalogCard } from './ResponsiveCatalogCard';
 import { Pagination, PaginationInfo } from '@/components/ui/Pagination';
 import { Filter, Grid, List, Search, Loader2 } from 'lucide-react';
@@ -16,6 +17,7 @@ interface CatalogItem {
     original_price?: number;
     discount?: string;
     features?: string[];
+    link?: string; // Added for mock data compatibility
     target_url: string;
     image?: string;
     provider_logo?: string;
@@ -31,6 +33,10 @@ interface CatalogItem {
     is_featured: boolean;
     show_on_landing: boolean;
     display_style: 'vertical' | 'horizontal';
+    display_order?: number;
+    show_on_home?: boolean;
+    shake_animation?: boolean;
+    shake_intensity?: 'normal' | 'intense';
 }
 
 interface LandingPageCatalogProps {
@@ -41,6 +47,7 @@ interface LandingPageCatalogProps {
     maxItems?: number;
     categories?: string[];
     className?: string;
+    useMockData?: boolean; // Added for temporary mock data
 }
 
 export const LandingPageCatalog: React.FC<LandingPageCatalogProps> = ({
@@ -50,7 +57,8 @@ export const LandingPageCatalog: React.FC<LandingPageCatalogProps> = ({
     showSearch = true,
     maxItems = 12,
     categories = [],
-    className = ''
+    className = '',
+    useMockData = false // Default to false
 }) => {
     const [catalogItems, setCatalogItems] = useState<CatalogItem[]>([]);
     const [filteredItems, setFilteredItems] = useState<CatalogItem[]>([]);
@@ -73,25 +81,42 @@ export const LandingPageCatalog: React.FC<LandingPageCatalogProps> = ({
         const fetchCatalogData = async () => {
             try {
                 setLoading(true);
-                const [catalogResponse, settingsResponse] = await Promise.all([
-                    fetch('/api/data'),
-                    fetch('/api/data?type=siteSettings')
-                ]);
+                if (useMockData) {
+                    // Use mock data directly
+                    const landingItems: CatalogItem[] = (mockProducts as CatalogItem[] || []).filter((item: CatalogItem) =>
+                        item.show_on_landing
+                    );
+                    setCatalogItems(landingItems);
+                    setFilteredItems(landingItems);
+                    // Mock pagination settings if needed, or use defaults
+                    setPaginationSettings({
+                        itemsPerPage: 12,
+                        rowsPerPage: 3,
+                        showPagination: true,
+                        paginationStyle: 'both'
+                    });
+                } else {
+                    // Original API fetching logic
+                    const [catalogResponse, settingsResponse] = await Promise.all([
+                        fetch('/api/data'),
+                        fetch('/api/data?type=siteSettings')
+                    ]);
 
-                const catalogData = await catalogResponse.json();
-                const settingsData = await settingsResponse.json();
+                    const catalogData = await catalogResponse.json();
+                    const settingsData = await settingsResponse.json();
 
-                // Filter only items that should show on landing page
-                const landingItems = (catalogData.products || []).filter((item: CatalogItem) =>
-                    item.show_on_landing
-                );
+                    // Filter only items that should show on landing page
+                    const landingItems = (catalogData.products || []).filter((item: CatalogItem) =>
+                        item.show_on_landing
+                    );
 
-                setCatalogItems(landingItems);
-                setFilteredItems(landingItems);
+                    setCatalogItems(landingItems);
+                    setFilteredItems(landingItems);
 
-                // Set pagination settings from admin
-                if (settingsData.pagination_settings) {
-                    setPaginationSettings(settingsData.pagination_settings);
+                    // Set pagination settings from admin
+                    if (settingsData.pagination_settings) {
+                        setPaginationSettings(settingsData.pagination_settings);
+                    }
                 }
             } catch (error) {
                 console.error('Error fetching catalog data:', error);

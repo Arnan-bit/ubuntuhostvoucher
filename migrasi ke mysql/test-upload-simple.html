@@ -1,0 +1,286 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Local File Manager Test</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 20px;
+            background: #1e293b;
+            color: white;
+        }
+        .container {
+            background: #334155;
+            padding: 20px;
+            border-radius: 10px;
+            margin-bottom: 20px;
+        }
+        .upload-form {
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+        }
+        input, select, button {
+            padding: 10px;
+            border-radius: 5px;
+            border: 1px solid #64748b;
+            background: #475569;
+            color: white;
+        }
+        button {
+            background: #3b82f6;
+            cursor: pointer;
+        }
+        button:hover {
+            background: #2563eb;
+        }
+        button:disabled {
+            background: #64748b;
+            cursor: not-allowed;
+        }
+        .result {
+            background: #1e293b;
+            padding: 15px;
+            border-radius: 5px;
+            margin-top: 10px;
+            border-left: 4px solid #3b82f6;
+        }
+        .success {
+            border-left-color: #10b981;
+        }
+        .error {
+            border-left-color: #ef4444;
+        }
+        .image-preview {
+            max-width: 300px;
+            max-height: 200px;
+            border-radius: 5px;
+            margin-top: 10px;
+        }
+        .file-list {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+            gap: 15px;
+            margin-top: 20px;
+        }
+        .file-item {
+            background: #475569;
+            padding: 15px;
+            border-radius: 8px;
+            text-align: center;
+        }
+        .file-item img {
+            width: 100%;
+            height: 120px;
+            object-fit: cover;
+            border-radius: 5px;
+            margin-bottom: 10px;
+        }
+    </style>
+</head>
+<body>
+    <h1>🗂️ Local File Manager Test</h1>
+    
+    <div class="container">
+        <h2>📤 Upload Test</h2>
+        <form class="upload-form" id="uploadForm">
+            <div>
+                <label for="fileInput">Select Image:</label>
+                <input type="file" id="fileInput" accept="image/*" required>
+            </div>
+            
+            <div>
+                <label for="categorySelect">Category:</label>
+                <select id="categorySelect">
+                    <option value="images">Images</option>
+                    <option value="banners">Banners</option>
+                    <option value="profiles">Profiles</option>
+                    <option value="promos">Promos</option>
+                </select>
+            </div>
+            
+            <button type="submit" id="uploadBtn">Upload File</button>
+        </form>
+        
+        <div id="uploadResult"></div>
+    </div>
+
+    <div class="container">
+        <h2>📁 Uploaded Files</h2>
+        <button onclick="loadFiles()">Refresh File List</button>
+        <div id="fileList" class="file-list"></div>
+    </div>
+
+    <div class="container">
+        <h2>🧪 Test Results</h2>
+        <div id="testResults"></div>
+    </div>
+
+    <script>
+        const uploadForm = document.getElementById('uploadForm');
+        const uploadResult = document.getElementById('uploadResult');
+        const fileList = document.getElementById('fileList');
+        const testResults = document.getElementById('testResults');
+
+        // Upload form handler
+        uploadForm.addEventListener('submit', async (e) => {
+            e.preventDefault();
+            
+            const fileInput = document.getElementById('fileInput');
+            const categorySelect = document.getElementById('categorySelect');
+            const uploadBtn = document.getElementById('uploadBtn');
+            
+            const file = fileInput.files[0];
+            if (!file) {
+                showResult('No file selected', 'error');
+                return;
+            }
+
+            uploadBtn.disabled = true;
+            uploadBtn.textContent = 'Uploading...';
+
+            try {
+                const formData = new FormData();
+                formData.append('file', file);
+                formData.append('category', categorySelect.value);
+
+                console.log('Uploading:', {
+                    fileName: file.name,
+                    fileSize: file.size,
+                    fileType: file.type,
+                    category: categorySelect.value
+                });
+
+                const response = await fetch('/api/upload', {
+                    method: 'POST',
+                    body: formData
+                });
+
+                const result = await response.json();
+
+                if (response.ok && result.success) {
+                    showResult(`
+                        <div class="success">
+                            <h3>✅ Upload Successful!</h3>
+                            <p><strong>Filename:</strong> ${result.filename}</p>
+                            <p><strong>URL:</strong> ${result.url}</p>
+                            <p><strong>Size:</strong> ${Math.round(result.size / 1024)}KB</p>
+                            <p><strong>Category:</strong> ${result.category}</p>
+                            <img src="${result.url}" alt="Uploaded image" class="image-preview">
+                        </div>
+                    `, 'success');
+                    
+                    // Reset form
+                    fileInput.value = '';
+                    
+                    // Refresh file list
+                    setTimeout(loadFiles, 1000);
+                } else {
+                    showResult(`
+                        <div class="error">
+                            <h3>❌ Upload Failed</h3>
+                            <p><strong>Error:</strong> ${result.error}</p>
+                            <p><strong>Details:</strong> ${result.details || 'No additional details'}</p>
+                        </div>
+                    `, 'error');
+                }
+
+            } catch (error) {
+                showResult(`
+                    <div class="error">
+                        <h3>❌ Network Error</h3>
+                        <p>${error.message}</p>
+                    </div>
+                `, 'error');
+            } finally {
+                uploadBtn.disabled = false;
+                uploadBtn.textContent = 'Upload File';
+            }
+        });
+
+        function showResult(html, type) {
+            uploadResult.innerHTML = `<div class="result ${type}">${html}</div>`;
+        }
+
+        // Load and display uploaded files
+        async function loadFiles() {
+            const categories = ['images', 'banners', 'profiles', 'promos'];
+            let html = '';
+
+            for (const category of categories) {
+                html += `<div class="file-item"><h3>${category.toUpperCase()}</h3>`;
+                
+                try {
+                    // Try to load a sample file from each category
+                    const testUrl = `/uploads/${category}/test.png`;
+                    const response = await fetch(testUrl, { method: 'HEAD' });
+                    
+                    if (response.ok) {
+                        html += `<img src="${testUrl}" alt="${category} sample">`;
+                        html += `<p>Sample file available</p>`;
+                    } else {
+                        html += `<p>No files in ${category}</p>`;
+                    }
+                } catch (error) {
+                    html += `<p>Error loading ${category}</p>`;
+                }
+                
+                html += '</div>';
+            }
+
+            fileList.innerHTML = html;
+        }
+
+        // Run tests on page load
+        window.addEventListener('load', () => {
+            runTests();
+            loadFiles();
+        });
+
+        async function runTests() {
+            testResults.innerHTML = '<h3>Running tests...</h3>';
+            
+            const tests = [
+                {
+                    name: 'API Endpoint Availability',
+                    test: async () => {
+                        const response = await fetch('/api/upload', { method: 'OPTIONS' });
+                        return response.status === 200 || response.status === 405; // 405 is also acceptable
+                    }
+                },
+                {
+                    name: 'Image Directory Access',
+                    test: async () => {
+                        const response = await fetch('/uploads/images/1755916217104_ChatGPT_Image_18_Agu_2025__10.37.41.png');
+                        return response.ok;
+                    }
+                },
+                {
+                    name: 'Placeholder Image',
+                    test: async () => {
+                        const response = await fetch('/placeholder-image.png');
+                        return response.ok;
+                    }
+                }
+            ];
+
+            let results = '<h3>🧪 Test Results:</h3>';
+            
+            for (const test of tests) {
+                try {
+                    const passed = await test.test();
+                    results += `<p>${passed ? '✅' : '❌'} ${test.name}</p>`;
+                } catch (error) {
+                    results += `<p>❌ ${test.name} (Error: ${error.message})</p>`;
+                }
+            }
+
+            testResults.innerHTML = results;
+        }
+    </script>
+</body>
+</html>

@@ -1,35 +1,32 @@
-
 'use client';
-// This file is intended for client-side use only.
-// It initializes Firebase with a client-safe configuration using a singleton pattern.
-import { initializeApp, getApp, getApps, FirebaseApp } from 'firebase/app';
-import { getAuth, Auth } from 'firebase/auth';
-import { getStorage, FirebaseStorage } from 'firebase/storage';
-import { getFirestore, Firestore } from 'firebase/firestore';
+// Firebase Client Configuration (Minimal - Auth Only)
+// Updated: Hybrid mode - Firebase Auth only for login, JWT for API calls
+// 
+// 🎯 IMPORTANT: This file uses centralized config from src/config/environment.ts
+// All credentials are loaded from .env.local only - DO NOT hardcode values here
+import { initializeApp, getApp, getApps } from 'firebase/app';
+import { getAuth } from 'firebase/auth';
+import { firebase as firebaseConfig } from '@/config/environment';
 
-const firebaseConfig = {
-    apiKey: process.env.NEXT_PUBLIC_FIREBASE_API_KEY,
-    authDomain: process.env.NEXT_PUBLIC_FIREBASE_AUTH_DOMAIN,
-    projectId: process.env.NEXT_PUBLIC_FIREBASE_PROJECT_ID,
-    storageBucket: process.env.NEXT_PUBLIC_FIREBASE_STORAGE_BUCKET,
-    messagingSenderId: process.env.NEXT_PUBLIC_FIREBASE_MESSAGING_SENDER_ID,
-    appId: process.env.NEXT_PUBLIC_FIREBASE_APP_ID
+const config = {
+    apiKey: firebaseConfig.apiKey,
+    authDomain: firebaseConfig.authDomain,
+    projectId: firebaseConfig.projectId,
+    storageBucket: firebaseConfig.storageBucket,
+    messagingSenderId: firebaseConfig.messagingSenderId,
+    appId: firebaseConfig.appId
 };
 
-const appId = "HostVoucher-ai-tracking-stable";
-
-// Use a function to ensure this only runs once.
 function initializeFirebase() {
     if (getApps().length) {
         return getApp();
     }
-    return initializeApp(firebaseConfig);
+    return initializeApp(config);
 }
 
-const app: FirebaseApp = initializeFirebase();
-const auth: Auth = getAuth(app);
-const storage: FirebaseStorage = getStorage(app);
-const db: Firestore = getFirestore(app);
+const app = initializeFirebase();
+const auth = getAuth(app);
 
-export { auth, storage, db, app, appId };
+export { auth, app };
+
 

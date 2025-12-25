@@ -25,6 +25,7 @@ export default function CatalogPage() {
                     maxItems={1000} // Show all items with pagination
                     categories={[]}
                     className="bg-transparent"
+                    useMockData={true} // Enable mock data
                 />
             </div>
         </div>

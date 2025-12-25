@@ -39,7 +39,7 @@ export async function fetchData(type: string) {
             baseUrl = `https://${process.env.VERCEL_URL.replace(/^https?:\/\//, '')}`;
         }
 
-        const url = baseUrl ? `${baseUrl}/api/data?type=${type}` : `/api/data?type=${type}`;
+        const url = baseUrl ? `${baseUrl}/api/core/data?type=${type}` : `/api/core/data?type=${type}`;
         const response = await fetch(url);
         if (!response.ok) {
             throw new Error(`Failed to fetch ${type}`);
