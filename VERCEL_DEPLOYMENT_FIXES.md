@@ -171,7 +171,7 @@ DB_DATABASE=<YOUR_DB_DATABASE>
 FTP_HOST=<YOUR_FTP_HOST>
 FTP_USER=<YOUR_FTP_USER>
 FTP_PASSWORD=<YOUR_FTP_PASSWORD>
-NEXT_PUBLIC_UPLOADS_URL=https://hostvocher.com/uploads/images
+NEXT_PUBLIC_UPLOADS_URL=https://hostvoucher.com/uploads/images
 ```
 
 ---

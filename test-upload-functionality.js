@@ -28,7 +28,7 @@ async function testUploadFunctionality() {
 
     // Test 2: Check image proxy
     console.log('\n2. Testing image proxy...');
-    const testImageUrl = 'https://hostvocher.com/uploads/images/1755916217104_ChatGPT_Image_18_Agu_2025__10.37.41.png';
+    const testImageUrl = 'https://hostvoucher.com/uploads/images/1755916217104_ChatGPT_Image_18_Agu_2025__10.37.41.png';
     const proxyUrl = `http://localhost:9002/api/image-proxy?url=${encodeURIComponent(testImageUrl)}`;
     
     try {
@@ -67,9 +67,9 @@ async function testUploadFunctionality() {
     // Test 4: Test direct image access
     console.log('\n4. Testing direct image access...');
     const testImages = [
-        'https://hostvocher.com/uploads/images/1755916217104_ChatGPT_Image_18_Agu_2025__10.37.41.png',
-        'https://hostvocher.com/uploads/images/1755916060366_new_promo.png',
-        'https://hostvocher.com/uploads/images/1755916097312_design_grafis_coupon_1_11zon.png'
+        'https://hostvoucher.com/uploads/images/1755916217104_ChatGPT_Image_18_Agu_2025__10.37.41.png',
+        'https://hostvoucher.com/uploads/images/1755916060366_new_promo.png',
+        'https://hostvoucher.com/uploads/images/1755916097312_design_grafis_coupon_1_11zon.png'
     ];
 
     for (const imageUrl of testImages) {

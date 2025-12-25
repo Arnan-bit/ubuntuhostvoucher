@@ -167,7 +167,7 @@ import { PageBanner } from '@/components/PageBanner';
 ```tsx
 // Files uploaded through admin panel are automatically
 // available at the configured FTP URL
-const imageUrl = "https://hostvocher.com/uploads/images/filename.jpg";
+const imageUrl = "https://hostvoucher.com/uploads/images/filename.jpg";
 ```
 
 ## ✨ **Benefits Achieved**

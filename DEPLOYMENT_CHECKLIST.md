@@ -83,7 +83,7 @@ cd api && npm start
 - **Development Frontend**: http://localhost:9002
 - **Network Access**: http://192.168.129.26:9002
 - **API Backend**: http://localhost:8800
-- **Production Domain**: https://hostvocher.com
+- **Production Domain**: https://hostvoucher.com
 
 ## ✅ Ready for Hosting!
 The application is fully configured and ready for deployment to your hosting provider.

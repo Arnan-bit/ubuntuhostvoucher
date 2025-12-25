@@ -36,6 +36,9 @@ function getEnvValue(devKey: string, prodKey: string): string {
   return value || '';
 }
 
+// Export isDevelopment variable for use in exports
+const isDevelopment = isDev;
+
 // ========================================
 // DATABASE CONFIGURATION
 // ========================================
@@ -48,11 +51,11 @@ interface DatabaseConfig {
 }
 
 const dbConfig: DatabaseConfig = {
-  host: getEnvValue('DEV_DB_HOST', 'PROD_DB_HOST') || 'localhost',
-  user: getEnvValue('DEV_DB_USER', 'PROD_DB_USER') || 'root',
-  password: getEnvValue('DEV_DB_PASSWORD', 'PROD_DB_PASSWORD') || '',
-  name: getEnvValue('DEV_DB_NAME', 'PROD_DB_NAME') || 'hostvoucher_db',
-  port: parseInt(getEnvValue('DEV_DB_PORT', 'PROD_DB_PORT') || '3306', 10),
+  host: process.env.DB_HOST || getEnvValue('DEV_DB_HOST', 'PROD_DB_HOST') || 'localhost',
+  user: process.env.DB_USER || getEnvValue('DEV_DB_USER', 'PROD_DB_USER') || 'root',
+  password: process.env.DB_PASSWORD || getEnvValue('DEV_DB_PASSWORD', 'PROD_DB_PASSWORD') || '',
+  name: process.env.DB_DATABASE || getEnvValue('DEV_DB_NAME', 'PROD_DB_NAME') || 'hostvoucher_db',
+  port: parseInt(process.env.DB_PORT || getEnvValue('DEV_DB_PORT', 'PROD_DB_PORT') || '3306', 10),
 };
 
 // ========================================
@@ -70,15 +73,15 @@ interface FirebaseConfig {
   serviceAccountJson?: string;
 }
 
-const firebaseConfig: FirebaseConfig = {
-  apiKey: getEnvValue('DEV_NEXT_PUBLIC_FIREBASE_API_KEY', 'PROD_NEXT_PUBLIC_FIREBASE_API_KEY') || '',
-  authDomain: getEnvValue('DEV_NEXT_PUBLIC_FIREBASE_AUTH_DOMAIN', 'PROD_NEXT_PUBLIC_FIREBASE_AUTH_DOMAIN') || '',
-  projectId: getEnvValue('DEV_NEXT_PUBLIC_FIREBASE_PROJECT_ID', 'PROD_NEXT_PUBLIC_FIREBASE_PROJECT_ID') || '',
-  storageBucket: getEnvValue('DEV_NEXT_PUBLIC_FIREBASE_STORAGE_BUCKET', 'PROD_NEXT_PUBLIC_FIREBASE_STORAGE_BUCKET') || '',
-  messagingSenderId: getEnvValue('DEV_NEXT_PUBLIC_FIREBASE_MESSAGING_SENDER_ID', 'PROD_NEXT_PUBLIC_FIREBASE_MESSAGING_SENDER_ID') || '',
-  appId: getEnvValue('DEV_NEXT_PUBLIC_FIREBASE_APP_ID', 'PROD_NEXT_PUBLIC_FIREBASE_APP_ID') || '',
+const firebaseConfig: any = {
+  apiKey: process.env.NEXT_PUBLIC_FIREBASE_API_KEY || getEnvValue('DEV_NEXT_PUBLIC_FIREBASE_API_KEY', 'PROD_NEXT_PUBLIC_FIREBASE_API_KEY') || '',
+  authDomain: process.env.NEXT_PUBLIC_FIREBASE_AUTH_DOMAIN || getEnvValue('DEV_NEXT_PUBLIC_FIREBASE_AUTH_DOMAIN', 'PROD_NEXT_PUBLIC_FIREBASE_AUTH_DOMAIN') || '',
+  projectId: process.env.NEXT_PUBLIC_FIREBASE_PROJECT_ID || getEnvValue('DEV_NEXT_PUBLIC_FIREBASE_PROJECT_ID', 'PROD_NEXT_PUBLIC_FIREBASE_PROJECT_ID') || '',
+  storageBucket: process.env.NEXT_PUBLIC_FIREBASE_STORAGE_BUCKET || getEnvValue('DEV_NEXT_PUBLIC_FIREBASE_STORAGE_BUCKET', 'PROD_NEXT_PUBLIC_FIREBASE_STORAGE_BUCKET') || '',
+  messagingSenderId: process.env.NEXT_PUBLIC_FIREBASE_MESSAGING_SENDER_ID || getEnvValue('DEV_NEXT_PUBLIC_FIREBASE_MESSAGING_SENDER_ID', 'PROD_NEXT_PUBLIC_FIREBASE_MESSAGING_SENDER_ID') || '',
+  appId: process.env.NEXT_PUBLIC_FIREBASE_APP_ID || getEnvValue('DEV_NEXT_PUBLIC_FIREBASE_APP_ID', 'PROD_NEXT_PUBLIC_FIREBASE_APP_ID') || '',
   // Server-side only
-  serviceAccountJson: getEnvValue('DEV_FIREBASE_SERVICE_ACCOUNT_JSON', 'PROD_FIREBASE_SERVICE_ACCOUNT_JSON'),
+  serviceAccountJson: process.env.FIREBASE_SERVICE_ACCOUNT_JSON || getEnvValue('DEV_FIREBASE_SERVICE_ACCOUNT_JSON', 'PROD_FIREBASE_SERVICE_ACCOUNT_JSON'),
 };
 
 /**
@@ -97,6 +100,9 @@ function getFirebaseServiceAccount() {
     return null;
   }
 }
+
+// Attach function to firebaseConfig object for safe access
+firebaseConfig.getFirebaseServiceAccount = getFirebaseServiceAccount;
 
 // ========================================
 // JWT CONFIGURATION

@@ -524,7 +524,7 @@ NEXT_PUBLIC_API_BASE_URL=/api
 FTP_HOST=41.216.185.84
 FTP_USER=uploaderar@hostvocher.com
 FTP_PASSWORD=231191493ra@ptF
-UPLOADS_URL=https://hostvocher.com/uploads/images
+UPLOADS_URL=https://hostvoucher.com/uploads/images
 
 # ==================== FIREBASE (DEPRECATED - REMOVE) ====================
 # NEXT_PUBLIC_FIREBASE_API_KEY=removed

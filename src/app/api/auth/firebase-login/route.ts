@@ -6,7 +6,7 @@
 // which imports from .env.local - DO NOT hardcode values here
 
 import admin from 'firebase-admin';
-import jwt from 'jsonwebtoken';
+import jwt, { SignOptions } from 'jsonwebtoken';
 import { NextResponse } from 'next/server';
 import { getOrCreateAdminByEmail } from '@/lib/db-admin';
 import { firebase as firebaseConfig, jwt as jwtConfig } from '@/config/environment';
@@ -14,10 +14,19 @@ import { firebase as firebaseConfig, jwt as jwtConfig } from '@/config/environme
 // Initialize Firebase Admin (once)
 if (!admin.apps.length) {
     try {
-        const serviceAccount = firebaseConfig.getFirebaseServiceAccount?.();
-        if (!serviceAccount) {
-            throw new Error('FIREBASE_SERVICE_ACCOUNT_JSON not properly configured in .env.local');
+        const getServiceAccount = typeof firebaseConfig.getFirebaseServiceAccount === 'function'
+            ? firebaseConfig.getFirebaseServiceAccount
+            : null;
+        
+        if (!getServiceAccount) {
+            throw new Error('FIREBASE_SERVICE_ACCOUNT_JSON not properly configured in .env');
         }
+        
+        const serviceAccount = getServiceAccount();
+        if (!serviceAccount) {
+            throw new Error('Could not parse FIREBASE_SERVICE_ACCOUNT_JSON from .env');
+        }
+        
         admin.initializeApp({
             credential: admin.credential.cert(serviceAccount)
         });
@@ -64,7 +73,7 @@ export async function POST(req: Request) {
         // ✅ Use JWT config loaded from environment.ts (from .env file)
         if (!jwtConfig.secret) {
             return NextResponse.json(
-                { error: 'Server misconfigured: JWT_SECRET not set in .env - Add: JWT_SECRET=your-long-secret-key-min-32-chars' },
+                { error: 'Server misconfigured: JWT_SECRET not configured in .env' },
                 { status: 500 }
             );
         }
@@ -77,7 +86,11 @@ export async function POST(req: Request) {
         };
 
         // ✅ Sign with secret from environment.ts config
-        const token = jwt.sign(payload, jwtConfig.secret, { expiresIn: jwtConfig.expiresIn });
+        const signOptions: SignOptions = {
+            expiresIn: '24h'
+        };
+        
+        const token = jwt.sign(payload, jwtConfig.secret as string, signOptions);
 
         console.log(`[firebase-login] User ${email} logged in successfully`);
 

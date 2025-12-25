@@ -19,7 +19,7 @@ export function verifyJwt(token: string): JwtPayload | null {
         // ✅ Use JWT secret from environment.ts config (loaded from .env)
         const secret = jwtConfig.secret;
         if (!secret) {
-            throw new Error('❌ JWT_SECRET not configured in .env - Add: JWT_SECRET=your-long-secret-key-min-32-chars');
+            throw new Error('❌ JWT_SECRET not configured in .env');
         }
 
         const decoded = jwt.verify(token, secret) as JwtPayload;

@@ -20,7 +20,7 @@ async function addDefaultBanners() {
             home: {
                 slides: [
                     {
-                        imageUrl: 'https://hostvocher.com/uploads/images/1755916018928_ChatGPT_Image_18_Agu_2025__10.55.24.png',
+                        imageUrl: 'https://hostvoucher.com/uploads/images/1755916018928_ChatGPT_Image_18_Agu_2025__10.55.24.png',
                         title: 'Welcome to HostVoucher',
                         subtitle: 'Find the best hosting deals and save money on your web hosting needs',
                         buttonText: 'Browse Deals',
@@ -28,7 +28,7 @@ async function addDefaultBanners() {
                         enabled: true
                     },
                     {
-                        imageUrl: 'https://hostvocher.com/uploads/images/1755916060366_new_promo.png',
+                        imageUrl: 'https://hostvoucher.com/uploads/images/1755916060366_new_promo.png',
                         title: 'Premium Hosting Solutions',
                         subtitle: 'Get 99.9% uptime guarantee with our trusted hosting partners',
                         buttonText: 'Get Started',
@@ -41,7 +41,7 @@ async function addDefaultBanners() {
             'web-hosting': {
                 slides: [
                     {
-                        imageUrl: 'https://hostvocher.com/uploads/images/1755916018928_ChatGPT_Image_18_Agu_2025__10.55.24.png',
+                        imageUrl: 'https://hostvoucher.com/uploads/images/1755916018928_ChatGPT_Image_18_Agu_2025__10.55.24.png',
                         title: 'Best Web Hosting Deals',
                         subtitle: 'Professional hosting solutions for your website',
                         buttonText: 'View Deals',
@@ -54,7 +54,7 @@ async function addDefaultBanners() {
             'hosting': {
                 slides: [
                     {
-                        imageUrl: 'https://hostvocher.com/uploads/images/1755916097312_design_grafis_coupon_1_11zon.png',
+                        imageUrl: 'https://hostvoucher.com/uploads/images/1755916097312_design_grafis_coupon_1_11zon.png',
                         title: 'Hosting Solutions',
                         subtitle: 'Reliable hosting services for your business',
                         buttonText: 'Explore',
@@ -105,11 +105,11 @@ async function addDefaultBanners() {
             banner_slide_2_button_link: defaultBanners.home.slides[1].buttonLink,
             rotation_interval: 8,
             // Update with uploaded images
-            specialistImageUrl: 'https://hostvocher.com/uploads/images/1755916217104_ChatGPT_Image_18_Agu_2025__10.37.41.png',
-            floatingPromoUrl: 'https://hostvocher.com/uploads/images/1755916060366_new_promo.png',
-            popupModalImageUrl: 'https://hostvocher.com/uploads/images/1755916097312_design_grafis_coupon_1_11zon.png',
-            logo_url: siteAppearance.logo_url || 'https://hostvocher.com/uploads/images/1755916018928_ChatGPT_Image_18_Agu_2025__10.55.24.png',
-            banner_image: siteAppearance.banner_image || 'https://hostvocher.com/uploads/images/1755916018928_ChatGPT_Image_18_Agu_2025__10.55.24.png'
+            specialistImageUrl: 'https://hostvoucher.com/uploads/images/1755916217104_ChatGPT_Image_18_Agu_2025__10.37.41.png',
+            floatingPromoUrl: 'https://hostvoucher.com/uploads/images/1755916060366_new_promo.png',
+            popupModalImageUrl: 'https://hostvoucher.com/uploads/images/1755916097312_design_grafis_coupon_1_11zon.png',
+            logo_url: siteAppearance.logo_url || 'https://hostvoucher.com/uploads/images/1755916018928_ChatGPT_Image_18_Agu_2025__10.55.24.png',
+            banner_image: siteAppearance.banner_image || 'https://hostvoucher.com/uploads/images/1755916018928_ChatGPT_Image_18_Agu_2025__10.55.24.png'
         };
 
         // Update database

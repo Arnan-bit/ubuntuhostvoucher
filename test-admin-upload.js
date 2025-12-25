@@ -84,9 +84,9 @@ async function testSaveSettings() {
     
     const testSettings = {
         site_title: 'HostVoucher Test',
-        specialist_image_url: 'https://hostvocher.com/uploads/images/1755916217104_ChatGPT_Image_18_Agu_2025__10.37.41.png',
-        floating_promo_url: 'https://hostvocher.com/uploads/images/1755916060366_new_promo.png',
-        home_banner_slide_1_image: 'https://hostvocher.com/uploads/images/1755916018928_ChatGPT_Image_18_Agu_2025__10.55.24.png',
+        specialist_image_url: 'https://hostvoucher.com/uploads/images/1755916217104_ChatGPT_Image_18_Agu_2025__10.37.41.png',
+        floating_promo_url: 'https://hostvoucher.com/uploads/images/1755916060366_new_promo.png',
+        home_banner_slide_1_image: 'https://hostvoucher.com/uploads/images/1755916018928_ChatGPT_Image_18_Agu_2025__10.55.24.png',
         home_banner_slide_1_title: 'Test Banner Title',
         home_banner_slide_1_subtitle: 'Test Banner Subtitle',
         home_banner_slide_1_enabled: true

@@ -70,10 +70,10 @@ async function testImages() {
         // Test direct access to images
         console.log('\n🌐 Testing direct image access...');
         const testUrls = [
-            'https://hostvocher.com/uploads/images/1755916217104_ChatGPT_Image_18_Agu_2025__10.37.41.png',
-            'https://hostvocher.com/uploads/images/1755916060366_new_promo.png',
-            'https://hostvocher.com/uploads/images/1755916097312_design_grafis_coupon_1_11zon.png',
-            'https://hostvocher.com/uploads/images/1755916018928_ChatGPT_Image_18_Agu_2025__10.55.24.png'
+            'https://hostvoucher.com/uploads/images/1755916217104_ChatGPT_Image_18_Agu_2025__10.37.41.png',
+            'https://hostvoucher.com/uploads/images/1755916060366_new_promo.png',
+            'https://hostvoucher.com/uploads/images/1755916097312_design_grafis_coupon_1_11zon.png',
+            'https://hostvoucher.com/uploads/images/1755916018928_ChatGPT_Image_18_Agu_2025__10.55.24.png'
         ];
 
         for (const url of testUrls) {

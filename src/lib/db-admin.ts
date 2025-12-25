@@ -9,7 +9,7 @@ const AUTHORIZED_ADMIN_EMAILS = [
     'garudandne87@gmail.com'
 ];
 
-export async function getOrCreateAdminByEmail(email: string, firebaseUid?: string) {
+export async function getOrCreateAdminByEmail(email: string, firebaseUid?: string): Promise<any> {
     // Check if email is authorized
     if (!AUTHORIZED_ADMIN_EMAILS.includes(email.toLowerCase())) {
         console.warn(`[db-admin] Email not authorized: ${email}`);
@@ -18,19 +18,19 @@ export async function getOrCreateAdminByEmail(email: string, firebaseUid?: strin
 
     try {
         // Find existing admin
-        const result = await query(
-            'SELECT id, email, name, role, firebase_uid FROM admin_users WHERE email = ?',
-            [email]
-        );
+        const result: any = await query({
+            query: 'SELECT id, email, name, role, firebase_uid FROM admin_users WHERE email = ?',
+            values: [email]
+        });
 
         if (result && result.length > 0) {
-            const admin = result[0];
+            const admin: any = result[0];
             // Update firebase_uid if provided and not set
             if (firebaseUid && !admin.firebase_uid) {
-                await query(
-                    'UPDATE admin_users SET firebase_uid = ? WHERE id = ?',
-                    [firebaseUid, admin.id]
-                );
+                await query({
+                    query: 'UPDATE admin_users SET firebase_uid = ? WHERE id = ?',
+                    values: [firebaseUid, admin.id]
+                });
             }
             return admin;
         }
@@ -39,10 +39,10 @@ export async function getOrCreateAdminByEmail(email: string, firebaseUid?: strin
         const adminId = randomUUID();
         const timestamp = new Date();
 
-        await query(
-            'INSERT INTO admin_users (id, email, name, firebase_uid, created_at, updated_at) VALUES (?, ?, ?, ?, ?, ?)',
-            [adminId, email, email.split('@')[0], firebaseUid || null, timestamp, timestamp]
-        );
+        await query({
+            query: 'INSERT INTO admin_users (id, email, name, firebase_uid, created_at, updated_at) VALUES (?, ?, ?, ?, ?, ?)',
+            values: [adminId, email, email.split('@')[0], firebaseUid || null, timestamp, timestamp]
+        });
 
         console.log(`[db-admin] Created new admin: ${email}`);
 
@@ -59,12 +59,12 @@ export async function getOrCreateAdminByEmail(email: string, firebaseUid?: strin
     }
 }
 
-export async function getAdminByEmail(email: string) {
+export async function getAdminByEmail(email: string): Promise<any> {
     try {
-        const result = await query(
-            'SELECT id, email, name, role FROM admin_users WHERE email = ?',
-            [email]
-        );
+        const result: any = await query({
+            query: 'SELECT id, email, name, role FROM admin_users WHERE email = ?',
+            values: [email]
+        });
         return result && result.length > 0 ? result[0] : null;
     } catch (error) {
         console.error('[db-admin] Error getting admin:', error);
@@ -72,12 +72,12 @@ export async function getAdminByEmail(email: string) {
     }
 }
 
-export async function getAdminById(id: string) {
+export async function getAdminById(id: string): Promise<any> {
     try {
-        const result = await query(
-            'SELECT id, email, name, role FROM admin_users WHERE id = ?',
-            [id]
-        );
+        const result: any = await query({
+            query: 'SELECT id, email, name, role FROM admin_users WHERE id = ?',
+            values: [id]
+        });
         return result && result.length > 0 ? result[0] : null;
     } catch (error) {
         console.error('[db-admin] Error getting admin by ID:', error);
