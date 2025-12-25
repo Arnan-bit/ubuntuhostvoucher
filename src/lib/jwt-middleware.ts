@@ -3,6 +3,7 @@
 
 import { NextRequest, NextResponse } from 'next/server';
 import jwt from 'jsonwebtoken';
+import { jwt as jwtConfig } from '@/config/environment';
 
 export interface JwtPayload {
     userId: string;
@@ -15,9 +16,10 @@ export interface JwtPayload {
 
 export function verifyJwt(token: string): JwtPayload | null {
     try {
-        const secret = process.env.JWT_SECRET;
+        // ✅ Use JWT secret from environment.ts config (loaded from .env)
+        const secret = jwtConfig.secret;
         if (!secret) {
-            throw new Error('JWT_SECRET not configured');
+            throw new Error('❌ JWT_SECRET not configured in .env - Add: JWT_SECRET=your-long-secret-key-min-32-chars');
         }
 
         const decoded = jwt.verify(token, secret) as JwtPayload;

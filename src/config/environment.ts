@@ -106,9 +106,10 @@ interface JwtConfig {
   expiresIn: string;
 }
 
+// ✅ Baca JWT_SECRET langsung dari .env (tidak perlu DEV_/PROD_ prefix)
 const jwtConfig: JwtConfig = {
-  secret: getEnvValue('DEV_JWT_SECRET', 'PROD_JWT_SECRET') || '',
-  expiresIn: getEnvValue('DEV_JWT_EXPIRES_IN', 'PROD_JWT_EXPIRES_IN') || '24h',
+  secret: process.env.JWT_SECRET || '',
+  expiresIn: process.env.JWT_EXPIRES_IN || '24h',
 };
 
 // ========================================

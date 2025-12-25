@@ -61,12 +61,10 @@ export async function POST(req: Request) {
         }
 
         // Generate server JWT (for MySQL API access)
-        const jwtSecret = process.env.JWT_SECRET;
-        const jwtExpiry = process.env.JWT_EXPIRES_IN || '24h';
-
-        if (!jwtSecret) {
+        // ✅ Use JWT config loaded from environment.ts (from .env file)
+        if (!jwtConfig.secret) {
             return NextResponse.json(
-                { error: 'Server misconfigured: JWT_SECRET not set' },
+                { error: 'Server misconfigured: JWT_SECRET not set in .env - Add: JWT_SECRET=your-long-secret-key-min-32-chars' },
                 { status: 500 }
             );
         }
@@ -78,6 +76,7 @@ export async function POST(req: Request) {
             role: user.role || 'admin'
         };
 
+        // ✅ Sign with secret from environment.ts config
         const token = jwt.sign(payload, jwtConfig.secret, { expiresIn: jwtConfig.expiresIn });
 
         console.log(`[firebase-login] User ${email} logged in successfully`);

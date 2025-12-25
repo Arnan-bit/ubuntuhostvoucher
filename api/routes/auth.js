@@ -35,9 +35,17 @@ router.post("/login", (req, res) => {
                 return res.status(401).json({ error: "Invalid credentials" });
             }
 
+            // ✅ Get JWT_SECRET from .env file
+            // For Node.js/Express: .env must be loaded with dotenv package at startup
+            const jwtSecret = process.env.JWT_SECRET;
+            if (!jwtSecret) {
+                console.error('❌ JWT_SECRET not set in .env file');
+                throw new Error('JWT_SECRET not configured. Add to .env: JWT_SECRET=your-very-long-random-secret-key-min-32-chars');
+            }
+
             const token = jwt.sign(
                 { userId: user.id, email: user.email },
-                process.env.JWT_SECRET || 'your-secret-key',
+                jwtSecret,
                 { expiresIn: '24h' }
             );
 
@@ -109,11 +117,19 @@ const verifyToken = (req, res, next) => {
     }
 
     try {
-        const decoded = jwt.verify(token, process.env.JWT_SECRET || 'your-secret-key');
+        // ✅ Get JWT_SECRET from .env file
+        const jwtSecret = process.env.JWT_SECRET;
+        if (!jwtSecret) {
+            console.error('❌ JWT_SECRET not set in .env file');
+            return res.status(500).json({ error: "Server misconfigured: JWT_SECRET not set" });
+        }
+
+        const decoded = jwt.verify(token, jwtSecret);
         req.user = decoded;
         next();
     } catch (error) {
-        return res.status(401).json({ error: "Invalid token" });
+        console.error('JWT verification error:', error.message);
+        return res.status(401).json({ error: "Invalid or expired token" });
     }
 };
 
