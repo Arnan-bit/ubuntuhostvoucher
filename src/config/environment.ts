@@ -51,11 +51,11 @@ interface DatabaseConfig {
 }
 
 const dbConfig: DatabaseConfig = {
-  host: process.env.DB_HOST || getEnvValue('DEV_DB_HOST', 'PROD_DB_HOST') || 'localhost',
-  user: process.env.DB_USER || getEnvValue('DEV_DB_USER', 'PROD_DB_USER') || 'root',
-  password: process.env.DB_PASSWORD || getEnvValue('DEV_DB_PASSWORD', 'PROD_DB_PASSWORD') || '',
-  name: process.env.DB_DATABASE || getEnvValue('DEV_DB_NAME', 'PROD_DB_NAME') || 'hostvoucher_db',
-  port: parseInt(process.env.DB_PORT || getEnvValue('DEV_DB_PORT', 'PROD_DB_PORT') || '3306', 10),
+  host: process.env.DB_HOST || '41.216.185.84',
+  user: process.env.DB_USER || 'hostvoch_webar',
+  password: process.env.DB_PASSWORD || 'Wizard@231191493',
+  name: process.env.DB_DATABASE || 'hostvoch_webapp',
+  port: parseInt(process.env.DB_PORT || '3306', 10),
 };
 
 // ========================================

@@ -2,12 +2,12 @@
 
 import mysql from 'mysql2/promise';
 
-// Database configuration with connection pooling
+// Database configuration with connection pooling - AWS MySQL ONLY
 const dbConfig = {
-  host: process.env.DB_HOST || 'localhost',
-  user: process.env.DB_USER,
-  password: process.env.DB_PASSWORD,
-  database: process.env.DB_DATABASE || process.env.DB_NAME,
+  host: process.env.DB_HOST || '41.216.185.84',
+  user: process.env.DB_USER || 'hostvoch_webar',
+  password: process.env.DB_PASSWORD || 'Wizard@231191493',
+  database: process.env.DB_DATABASE || 'hostvoch_webapp',
   port: 3306,
   connectionLimit: 5, // Limit concurrent connections
   reconnect: true,
