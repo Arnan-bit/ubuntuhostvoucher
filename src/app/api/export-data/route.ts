@@ -1,4 +1,4 @@
-import { executeQuery } from '@/lib/db-connection';
+import { query } from '@/lib/db';
 import { NextResponse } from 'next/server';
 
 /**
@@ -64,10 +64,10 @@ export async function GET(request: Request) {
     console.log(`[Export] Fetching data from ${table} (limit: ${limit})`);
 
     // Fetch data
-    const data = await executeQuery(
-      `SELECT * FROM ${table} LIMIT ?`,
-      [limit]
-    );
+    const data = await query({
+      query: `SELECT * FROM ${table} LIMIT ?`,
+      values: [limit]
+    }) as any[];
 
     if (!data || data.length === 0) {
       return NextResponse.json(

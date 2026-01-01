@@ -5,7 +5,7 @@
 // 🎯 IMPORTANT: This file uses centralized config from src/config/environment.ts
 // All credentials are loaded from .env.local only - DO NOT hardcode values here
 import { initializeApp, getApp, getApps } from 'firebase/app';
-import { getAuth } from 'firebase/auth';
+import { getAuth, signInWithEmailAndPassword, signOut } from 'firebase/auth';
 import { firebase as firebaseConfig } from '@/config/environment';
 
 const config = {
@@ -27,6 +27,6 @@ function initializeFirebase() {
 const app = initializeFirebase();
 const auth = getAuth(app);
 
-export { auth, app };
+export { auth, app, signInWithEmailAndPassword, signOut };
 
 

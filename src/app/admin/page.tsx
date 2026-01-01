@@ -10,8 +10,7 @@
 // Semua tindakan (simpan/hapus) terintegrasi dengan API /api/action (MySQL).
 
 import React, { useState, useEffect, useMemo, useRef, useCallback } from 'react';
-import { signInWithEmailAndPassword, signOut } from 'firebase/auth';
-import { auth } from '@/lib/firebase-client';
+import { auth, signInWithEmailAndPassword, signOut } from '@/lib/firebase-client';
 import * as dataApi from '@/lib/hostvoucher-data';
 import { useClientData } from '@/hooks/use-client-data';
 import * as apiClient from '@/lib/api-client';
@@ -936,7 +935,7 @@ const AdminDashboard = React.memo(({ onLogout }: { onLogout: () => void; userId:
 // BAGIAN 3: KOMPONEN UTAMA HALAMAN (ORKESTRATOR)
 // =================================================================================
 export default function AdminPage() {
-    const [user, setUser] = useState<User | null>(null);
+    const [user, setUser] = useState<any>(null);
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
     const [authError, setAuthError] = useState<string | null>(null);

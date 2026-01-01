@@ -10,8 +10,7 @@
 import React, { useState, useEffect, useMemo, useRef, useCallback } from 'react';
 import { Switch } from "@/components/ui/switch";
 import Image from 'next/image';
-import { signInWithEmailAndPassword, signOut } from 'firebase/auth';
-import { auth } from '@/lib/firebase-client';
+import { auth, signInWithEmailAndPassword, signOut } from '@/lib/firebase-client';
 import Link from 'next/link';
 import * as dataApi from '@/lib/hostvoucher-data';
 import { useClientData } from '@/hooks/use-client-data';
@@ -184,7 +183,7 @@ const Sidebar = React.memo(({ sectionRefs, onLogout }: any) => {
 
     return (
          <>
-            <aside className="w-64 bg-slate-800 border-r border-slate-700 flex-shrink-0 flex flex-col sticky top-0 h-screen hidden md:flex">
+            <aside className="w-64 bg-slate-800 border-r border-slate-700 flex-shrink-0 sticky top-0 h-screen max-md:hidden md:flex flex-col">
                 <div className="flex items-center justify-between p-4 border-b border-slate-700 flex-shrink-0">
                     <h1 className="text-2xl font-bold text-white flex items-center gap-2"><Settings /> Settings</h1>
                 </div>
@@ -692,18 +691,54 @@ const SettingsDashboard = ({ onLogout, userId }: { onLogout: () => void; userId:
             <Sidebar sectionRefs={sectionRefs} onLogout={onLogout} />
             <main id="admin-main-panel" className="flex-1 flex flex-col overflow-x-hidden">
                  <div className="flex-grow overflow-y-auto p-4 md:p-6 lg:p-8">
-                    <div ref={sectionRefs.blog} className="mb-16"><BlogManagement posts={data?.blogPosts || []} onSave={handleSaveBlogPost} onDelete={handleDeleteBlogPost} editingPost={editingPost} setEditingPost={setEditingPost} showNotification={showNotification} uploadFileToCPanel={uploadFileToCPanel} /></div>
-                    <div ref={sectionRefs.newsletter} className="mb-16"><NewsletterView subscriptions={data?.newsletterSubscriptions || []} onDeleteSubscription={handleDeleteSubscription} /></div>
-                    <div ref={sectionRefs.uploads} className="mb-16"><UploadManager uploads={data?.uploads || []} onUpload={(files: any) => {}} onDelete={(id: any) => {}} showNotification={showNotification} uploadFileToCPanel={uploadFileToCPanel} /></div>
-                    <div ref={sectionRefs.appearance} className="mb-16"><SiteAppearancePage settings={data?.settings || {}} onSave={handleSaveSettings} showNotification={showNotification} uploadFileToCPanel={uploadFileToCPanel} /></div>
-                    <div ref={sectionRefs.strategy} className="mb-16"><DigitalStrategyImagesPage settings={data?.settings || {}} onSave={handleSaveSettings} showNotification={showNotification} uploadFileToCPanel={uploadFileToCPanel} /></div>
-                    <div ref={sectionRefs.catalog} className="mb-16"><ProfessionalCatalogImageManager settings={data?.settings || {}} onSave={handleSaveSettings} showNotification={showNotification} uploadFileToCPanel={uploadFileToCPanel} /></div>
-                    <div ref={sectionRefs.landing} className="mb-16"><LandingPageManager settings={data?.settings || {}} onSave={handleSaveSettings} showNotification={showNotification} /></div>
-                    <div ref={sectionRefs.gamification} className="mb-16"><AdvancedGamificationManager settings={{...data?.settings || {}, miningTasks: data?.miningTasks || []}} onSave={handleSaveSettings} showNotification={showNotification} uploadFileToCPanel={uploadFileToCPanel} /></div>
-                    <div ref={sectionRefs.banners} className="mb-16"><EnhancedBannerRotationManager settings={data?.settings || {}} onSave={handleSaveSettings} showNotification={showNotification} uploadFileToCPanel={uploadFileToCPanel} /></div>
-                    <div ref={sectionRefs.charitable} className="mb-16"><CharitableDonationSettings settings={data?.settings || {}} onSave={handleSaveSettings} showNotification={showNotification} uploadFileToCPanel={uploadFileToCPanel} isAdminMode={true} /></div>
-                    <div ref={sectionRefs.integrations} className="mb-16"><IntegrationsPage settings={data?.settings || {}} onSave={handleSaveSettings} showNotification={showNotification} /></div>
-                    <div ref={sectionRefs.settings} className="mb-16"><GlobalSettingsPage settings={data?.settings || {}} onSave={handleSaveSettings} showNotification={showNotification} miningTasks={data?.settings?.miningTasks || []} onUpdateMiningTasks={()=>{}} uploadFileToCPanel={uploadFileToCPanel} /></div>
+                    <div ref={sectionRefs.blog} className="mb-16">
+                        <h2 className="text-2xl font-bold mb-4">Blog Management</h2>
+                        <p className="text-slate-400">Blog management section - coming soon</p>
+                    </div>
+                    <div ref={sectionRefs.newsletter} className="mb-16">
+                        <h2 className="text-2xl font-bold mb-4">Newsletter</h2>
+                        <p className="text-slate-400">Newsletter management section - coming soon</p>
+                    </div>
+                    <div ref={sectionRefs.uploads} className="mb-16">
+                        <h2 className="text-2xl font-bold mb-4">Uploads</h2>
+                        <p className="text-slate-400">Upload management section - coming soon</p>
+                    </div>
+                    <div ref={sectionRefs.appearance} className="mb-16">
+                        <h2 className="text-2xl font-bold mb-4">Site Appearance</h2>
+                        <p className="text-slate-400">Site appearance settings - coming soon</p>
+                    </div>
+                    <div ref={sectionRefs.strategy} className="mb-16">
+                        <h2 className="text-2xl font-bold mb-4">Digital Strategy Images</h2>
+                        <p className="text-slate-400">Digital strategy image management - coming soon</p>
+                    </div>
+                    <div ref={sectionRefs.catalog} className="mb-16">
+                        <h2 className="text-2xl font-bold mb-4">Professional Catalog</h2>
+                        <p className="text-slate-400">Professional catalog management - coming soon</p>
+                    </div>
+                    <div ref={sectionRefs.landing} className="mb-16">
+                        <h2 className="text-2xl font-bold mb-4">Landing Page</h2>
+                        <p className="text-slate-400">Landing page management - coming soon</p>
+                    </div>
+                    <div ref={sectionRefs.gamification} className="mb-16">
+                        <h2 className="text-2xl font-bold mb-4">Gamification</h2>
+                        <p className="text-slate-400">Gamification settings - coming soon</p>
+                    </div>
+                    <div ref={sectionRefs.banners} className="mb-16">
+                        <h2 className="text-2xl font-bold mb-4">Banner Rotation</h2>
+                        <p className="text-slate-400">Banner rotation management - coming soon</p>
+                    </div>
+                    <div ref={sectionRefs.charitable} className="mb-16">
+                        <h2 className="text-2xl font-bold mb-4">Charitable Donations</h2>
+                        <p className="text-slate-400">Charitable donation settings - coming soon</p>
+                    </div>
+                    <div ref={sectionRefs.integrations} className="mb-16">
+                        <h2 className="text-2xl font-bold mb-4">Integrations</h2>
+                        <p className="text-slate-400">Third-party integrations - coming soon</p>
+                    </div>
+                    <div ref={sectionRefs.settings} className="mb-16">
+                        <h2 className="text-2xl font-bold mb-4">Global Settings</h2>
+                        <p className="text-slate-400">Global settings management - coming soon</p>
+                    </div>
                 </div>
                  <footer className="p-4 bg-slate-800 border-t border-slate-700 text-center text-sm text-slate-400 flex-shrink-0">HostVoucher Admin Panel © {new Date().getFullYear()}</footer>
             </main>
