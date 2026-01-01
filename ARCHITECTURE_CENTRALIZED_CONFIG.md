@@ -85,10 +85,10 @@ All Source Files Import from Here:
 **Structure:**
 ```env
 # Database
-DB_HOST=localhost
-DB_USER=root
-DB_PASSWORD=...
-DB_NAME=hostvoucher_db
+    host: process.env.DB_HOST,
+    user: process.env.DB_USER,
+    password: process.env.DB_PASSWORD,
+    database: process.env.DB_DATABASE
 DB_PORT=3306
 
 # Firebase Client

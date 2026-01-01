@@ -157,10 +157,10 @@
 
 ### **Environment Variables for Production**:
 ```env
-DB_HOST=your-production-mysql-host
-DB_USER=your-production-mysql-user
-DB_PASSWORD=your-production-mysql-password
-DB_NAME=hostvoucher_db
+host: process.env.DB_HOST,
+user: process.env.DB_USER,
+password: process.env.DB_PASSWORD,
+database: process.env.DB_DATABASE
 DB_PORT=3306
 NEXT_PUBLIC_BASE_URL=https://your-domain.com
 NODE_ENV=production

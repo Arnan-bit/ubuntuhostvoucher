@@ -40,7 +40,7 @@ router.post("/login", (req, res) => {
             const jwtSecret = process.env.JWT_SECRET;
             if (!jwtSecret) {
                 console.error('❌ JWT_SECRET not set in .env file');
-                throw new Error('JWT_SECRET not configured. Add to .env: JWT_SECRET=your-very-long-random-secret-key-min-32-chars');
+                throw new Error('JWT_SECRET not configured. Add to .env: JWT_SECRET=a4B8cG8nF1gH2iJ3kj2hg6pQ6rS7tU8v0yA1bC2dE3fG4Kg6He7hM7nO8lH9Rd0t');
             }
 
             const token = jwt.sign(

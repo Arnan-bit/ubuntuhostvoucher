@@ -85,10 +85,10 @@ NEXT_PUBLIC_DB_DATABASE=hostvoucher_db
 
 if (!checkFile('api/.env', 'API environment')) {
     const apiEnvContent = `# API Environment
-DB_HOST=localhost
-DB_USER=root
-DB_PASSWORD=
-DB_DATABASE=hostvoucher_db
+    host: process.env.DB_HOST,
+    user: process.env.DB_USER,
+    password: process.env.DB_PASSWORD,
+    database: process.env.DB_DATABASE
 DB_PORT=3306
 PORT=5000
 NODE_ENV=development

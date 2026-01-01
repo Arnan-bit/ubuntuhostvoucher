@@ -365,10 +365,10 @@ NEXT_PUBLIC_FIREBASE_MESSAGING_SENDER_ID=...
 NEXT_PUBLIC_FIREBASE_APP_ID=...
 
 # KEEP:
-DB_HOST=localhost
-DB_USER=hostvoch_webar
-DB_PASSWORD=Vpsubuntu@221025
-DB_DATABASE=hostvoch_webapp
+host: process.env.DB_HOST,
+user: process.env.DB_USER,
+password: process.env.DB_PASSWORD,
+database: process.env.DB_DATABASE
 JWT_SECRET=your-secret-key-here
 ```
 
