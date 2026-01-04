@@ -1,63 +1,20 @@
 // API Route: POST /api/auth/firebase-login
-// Verifikasi Firebase ID Token -> Issue JWT untuk MySQL access
-// Hybrid flow: Firebase Auth + Server JWT
-//
-// 🎯 IMPORTANT: All credentials loaded from src/config/environment.ts
-// which imports from .env.local - DO NOT hardcode values here
+// ❌ DISABLED - Firebase authentication not used
+// Application uses MySQL-only authentication instead
+// This endpoint returns 503 Service Unavailable
 
-import admin from 'firebase-admin';
-import jwt, { SignOptions } from 'jsonwebtoken';
 import { NextResponse } from 'next/server';
-import { getOrCreateAdminByEmail } from '@/lib/db-admin';
-import { firebase as firebaseConfig, jwt as jwtConfig } from '@/config/environment';
-
-// Initialize Firebase Admin (once)
-if (!admin.apps.length) {
-    try {
-        const getServiceAccount = typeof firebaseConfig.getFirebaseServiceAccount === 'function'
-            ? firebaseConfig.getFirebaseServiceAccount
-            : null;
-        
-        if (!getServiceAccount) {
-            throw new Error('FIREBASE_SERVICE_ACCOUNT_JSON not properly configured in .env');
-        }
-        
-        const serviceAccount = getServiceAccount();
-        if (!serviceAccount) {
-            throw new Error('Could not parse FIREBASE_SERVICE_ACCOUNT_JSON from .env');
-        }
-        
-        admin.initializeApp({
-            credential: admin.credential.cert(serviceAccount)
-        });
-    } catch (error) {
-        console.error('❌ Firebase Admin initialization error:', error);
-    }
-}
 
 export async function POST(req: Request) {
-    try {
-        const body = await req.json();
-        const { idToken } = body;
-
-        if (!idToken) {
-            return NextResponse.json(
-                { error: 'Missing idToken' },
-                { status: 400 }
-            );
-        }
-
-        // Verify Firebase ID Token
-        const decoded = await admin.auth().verifyIdToken(idToken);
-        const email = decoded.email;
-        const firebaseUid = decoded.uid;
-
-        if (!email) {
-            return NextResponse.json(
-                { error: 'No email in Firebase token' },
-                { status: 401 }
-            );
-        }
+    return NextResponse.json(
+        { 
+            error: 'Firebase authentication is disabled',
+            message: 'This application uses MySQL-only authentication. Firebase endpoints are not available.',
+            status: 'disabled'
+        },
+        { status: 503 }
+    );
+}
 
         // Find or create admin user in MySQL
         const user = await getOrCreateAdminByEmail(email, firebaseUid);

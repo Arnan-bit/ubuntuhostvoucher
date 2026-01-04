@@ -59,29 +59,34 @@ const dbConfig: DatabaseConfig = {
 };
 
 // ========================================
-// FIREBASE CONFIGURATION
+// FIREBASE CONFIGURATION (DISABLED - MySQL Only)
 // ========================================
+// Firebase is no longer used - application uses MySQL only
+// This config is kept for backward compatibility but is not initialized
+
 interface FirebaseConfig {
-  // Client config (public)
+  // Client config (public) - all disabled
   apiKey: string;
   authDomain: string;
   projectId: string;
   storageBucket: string;
   messagingSenderId: string;
   appId: string;
-  // Server config (private)
+  // Server config (private) - not available
   serviceAccountJson?: string;
 }
 
 const firebaseConfig: any = {
-  apiKey: process.env.NEXT_PUBLIC_FIREBASE_API_KEY || getEnvValue('DEV_NEXT_PUBLIC_FIREBASE_API_KEY', 'PROD_NEXT_PUBLIC_FIREBASE_API_KEY') || '',
-  authDomain: process.env.NEXT_PUBLIC_FIREBASE_AUTH_DOMAIN || getEnvValue('DEV_NEXT_PUBLIC_FIREBASE_AUTH_DOMAIN', 'PROD_NEXT_PUBLIC_FIREBASE_AUTH_DOMAIN') || '',
-  projectId: process.env.NEXT_PUBLIC_FIREBASE_PROJECT_ID || getEnvValue('DEV_NEXT_PUBLIC_FIREBASE_PROJECT_ID', 'PROD_NEXT_PUBLIC_FIREBASE_PROJECT_ID') || '',
-  storageBucket: process.env.NEXT_PUBLIC_FIREBASE_STORAGE_BUCKET || getEnvValue('DEV_NEXT_PUBLIC_FIREBASE_STORAGE_BUCKET', 'PROD_NEXT_PUBLIC_FIREBASE_STORAGE_BUCKET') || '',
-  messagingSenderId: process.env.NEXT_PUBLIC_FIREBASE_MESSAGING_SENDER_ID || getEnvValue('DEV_NEXT_PUBLIC_FIREBASE_MESSAGING_SENDER_ID', 'PROD_NEXT_PUBLIC_FIREBASE_MESSAGING_SENDER_ID') || '',
-  appId: process.env.NEXT_PUBLIC_FIREBASE_APP_ID || getEnvValue('DEV_NEXT_PUBLIC_FIREBASE_APP_ID', 'PROD_NEXT_PUBLIC_FIREBASE_APP_ID') || '',
-  // Server-side only
-  serviceAccountJson: process.env.FIREBASE_SERVICE_ACCOUNT_JSON || getEnvValue('DEV_FIREBASE_SERVICE_ACCOUNT_JSON', 'PROD_FIREBASE_SERVICE_ACCOUNT_JSON'),
+  // ❌ Firebase is DISABLED - MySQL-only deployment
+  // These are intentionally empty strings
+  apiKey: '',
+  authDomain: '',
+  projectId: '',
+  storageBucket: '',
+  messagingSenderId: '',
+  appId: '',
+  // Server-side - not configured
+  serviceAccountJson: null,
 };
 
 /**
@@ -278,9 +283,10 @@ function validateEnvironment() {
     throw new Error('❌ JWT_SECRET must be at least 32 characters long');
   }
 
-  // Firebase service account - WAJIB di production
-  if (!isDev && !firebaseConfig.serviceAccountJson) {
-    throw new Error('❌ FIREBASE_SERVICE_ACCOUNT_JSON is required in production');
+  // Firebase service account - NOT REQUIRED (MySQL only)
+  // Firebase is disabled in production - using MySQL exclusively
+  if (!isDev) {
+    console.log('✅ MySQL-only mode activated (Firebase disabled)');
   }
 }
 

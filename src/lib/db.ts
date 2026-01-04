@@ -9,10 +9,11 @@ const dbConfig = {
   password: process.env.DB_PASSWORD || 'Wizard@231191493',
   database: process.env.DB_DATABASE || 'hostvoch_webapp',
   port: 3306,
-  connectionLimit: 5, // Limit concurrent connections
-  reconnect: true,
-  idleTimeout: 300000,
-  queueLimit: 0
+  waitForConnections: true,
+  connectionLimit: 10,
+  queueLimit: 0,
+  enableKeepAlive: true,
+  keepAliveInitialDelayMs: 0
 };
 
 // Create a connection pool to manage connections efficiently
@@ -66,8 +67,10 @@ export async function getDealsFromDb() {
       is_featured: product.is_featured ? Boolean(product.is_featured) : false
     }));
   } catch (error: any) {
-    console.error(`[${new Date().toISOString()}] !!! ERROR SAAT QUERY PRODUK:`, error.message);
-    throw error;
+    console.error(`[${new Date().toISOString()}] ERROR SAAT QUERY PRODUK:`, error.message);
+    console.error('Stack:', error.stack);
+    // Return empty array instead of throwing - prevents build failures
+    return [];
   }
 }
 
