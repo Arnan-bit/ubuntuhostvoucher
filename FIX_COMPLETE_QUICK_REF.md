@@ -70,7 +70,7 @@ cd /var/www/html/hostvoucher
 git pull origin main
 npm run build
 pm2 restart hostvoucher-frontend
-curl -I https://hostvocher.com  # Should return 200
+curl -I https://hostvoucher.com  # Should return 200
 ```
 
 ### Current Status

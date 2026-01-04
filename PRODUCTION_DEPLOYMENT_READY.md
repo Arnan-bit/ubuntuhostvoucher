@@ -103,7 +103,7 @@ sleep 5
 
 ### Step 7: Verify Production is Online
 ```bash
-curl -I https://hostvocher.com
+curl -I https://hostvoucher.com
 ```
 
 **Expected Output:**
@@ -120,17 +120,17 @@ Run these commands on production to verify everything works:
 
 ### Homepage Status (Should be 200)
 ```bash
-curl -I https://hostvocher.com
+curl -I https://hostvoucher.com
 ```
 
 ### API Endpoint Test (Should return JSON)
 ```bash
-curl https://hostvocher.com/api/core/deals | head -20
+curl https://hostvoucher.com/api/core/deals | head -20
 ```
 
 ### Admin Panel Access (Should be 200)
 ```bash
-curl -I https://hostvocher.com/admin
+curl -I https://hostvoucher.com/admin
 ```
 
 ### Database Connection (Check logs)
@@ -251,7 +251,7 @@ Connection:    ✓ Healthy
 - **NODE_ENV=production** (set in .env.local)
 - **Database:** AWS MySQL only (Firebase completely disabled)
 - **Port:** 3000 (configured in next.config.ts)
-- **Domain:** https://hostvocher.com
+- **Domain:** https://hostvoucher.com
 
 ### What's Running
 - **Frontend:** Next.js server (port 3000)
@@ -313,7 +313,7 @@ All critical issues have been fixed, the build completes successfully, and the d
 
 **Deployment Command (One-liner):**
 ```bash
-cd /var/www/html/hostvoucher && git pull origin main && npm run build && pm2 restart hostvoucher-frontend && curl -I https://hostvocher.com
+cd /var/www/html/hostvoucher && git pull origin main && npm run build && pm2 restart hostvoucher-frontend && curl -I https://hostvoucher.com
 ```
 
 ---

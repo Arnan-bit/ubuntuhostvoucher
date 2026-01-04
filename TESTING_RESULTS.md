@@ -85,7 +85,7 @@ pm2 restart all
 
 **Step 6**: Verify it's running
 ```bash
-curl https://hostvocher.com/
+curl https://hostvoucher.com/
 # Should return 200 OK, not 502
 ```
 
@@ -150,6 +150,6 @@ curl https://hostvocher.com/
 
 1. ✅ Deploy to AWS VPS using the deployment instructions above
 2. ✅ Monitor production logs: `pm2 logs hostvoucher-frontend`
-3. ✅ Check website: https://hostvocher.com
+3. ✅ Check website: https://hostvoucher.com
 
 **Expected Result**: Website will load with 200 OK response, no more 502 Bad Gateway! 🎉

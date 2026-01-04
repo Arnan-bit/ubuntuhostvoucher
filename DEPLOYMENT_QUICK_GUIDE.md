@@ -96,11 +96,11 @@ curl http://localhost:3000
 # Should return HTML (not error)
 
 # Check with your domain
-curl https://hostvocher.com
+curl https://hostvoucher.com
 # Should return 200 OK (not 502 Bad Gateway)
 
 # Check API
-curl https://hostvocher.com/api/core/data?type=deals
+curl https://hostvoucher.com/api/core/data?type=deals
 # Should return JSON data
 ```
 
@@ -125,7 +125,7 @@ tail -100 /var/log/website/app.log
 - [ ] npm install completed
 - [ ] npm run build completed without errors
 - [ ] Application restarted without errors
-- [ ] https://hostvocher.com loads (no 502 error)
+- [ ] https://hostvoucher.com loads (no 502 error)
 - [ ] API endpoint responds with data
 - [ ] Logs show no error messages
 - [ ] Database test passes: `node test-mysql-aws.js`

@@ -184,18 +184,18 @@ All issues have been identified and resolved.
 - [ ] Install dependencies: `npm install` (if needed)
 - [ ] Build: `npm run build`
 - [ ] Restart PM2: `pm2 restart hostvoucher-frontend`
-- [ ] Verify: `curl https://hostvocher.com` (should return 200)
+- [ ] Verify: `curl https://hostvoucher.com` (should return 200)
 
 ### Verification Commands for Production
 ```bash
 # Check if server is running
-curl https://hostvocher.com -I
+curl https://hostvoucher.com -I
 
 # Check API endpoint
-curl https://hostvocher.com/api/core/deals
+curl https://hostvoucher.com/api/core/deals
 
 # Check admin panel
-curl https://hostvocher.com/admin -I
+curl https://hostvoucher.com/admin -I
 
 # Monitor logs
 pm2 logs hostvoucher-frontend

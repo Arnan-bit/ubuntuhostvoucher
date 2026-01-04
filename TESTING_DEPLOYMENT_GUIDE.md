@@ -158,7 +158,7 @@ docker-compose restart web
 ### 4.7 Verify di Production
 
 ```bash
-curl https://hostvocher.com/
+curl https://hostvoucher.com/
 # Harus return 200 OK, bukan 502 Bad Gateway
 ```
 
@@ -259,6 +259,6 @@ Jika ada masalah:
 2. ✅ Run `npm run build` → Verify build
 3. ✅ Run `node test-api-endpoints.js` → Test API (if server running)
 4. ✅ Deploy to AWS VPS
-5. ✅ Verify production: `curl https://hostvocher.com`
+5. ✅ Verify production: `curl https://hostvoucher.com`
 
 **Expected Result**: Website loads with 200 OK, no more 502 Bad Gateway! 🎉

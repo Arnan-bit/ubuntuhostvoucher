@@ -93,7 +93,7 @@ NEXT STEP: DEPLOY TO PRODUCTION
     → pm2 restart hostvoucher-frontend
 
   Step 4: Verify (should return 200)
-    → curl -I https://hostvocher.com
+    → curl -I https://hostvoucher.com
 
 
 DOCUMENTATION PROVIDED
@@ -191,7 +191,7 @@ Next Action: SSH to production server and deploy
 When ready, run this on your production server:
 
 ```bash
-cd /var/www/html/hostvoucher && git pull origin main && npm run build && pm2 restart hostvoucher-frontend && echo "✅ Deployment complete!" && curl -I https://hostvocher.com
+cd /var/www/html/hostvoucher && git pull origin main && npm run build && pm2 restart hostvoucher-frontend && echo "✅ Deployment complete!" && curl -I https://hostvoucher.com
 ```
 
 ---

@@ -129,13 +129,13 @@ node test-mysql-aws.js
 
 ### 4. Test Homepage
 ```bash
-curl https://hostvocher.com
+curl https://hostvoucher.com
 # Expected: 200 OK, HTML response (not 502 Bad Gateway)
 ```
 
 ### 5. Test API Endpoint
 ```bash
-curl https://hostvocher.com/api/core/data?type=deals
+curl https://hostvoucher.com/api/core/data?type=deals
 # Expected: 200 OK, JSON response with product data
 ```
 
@@ -172,7 +172,7 @@ systemctl restart api
 ### 5. Verify it Works
 ```bash
 # Check site
-curl https://hostvocher.com
+curl https://hostvoucher.com
 # Should be 200 OK (not 502)
 
 # Check logs
@@ -222,7 +222,7 @@ npm run start
 ## 🚀 NEXT STEPS
 
 1. ✅ Deploy changes to production server
-2. ✅ Verify website loads (check https://hostvocher.com)
+2. ✅ Verify website loads (check https://hostvoucher.com)
 3. ✅ Monitor logs for any new errors
 4. ✅ Test API endpoints
 5. ✅ Test database reads/writes

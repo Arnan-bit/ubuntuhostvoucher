@@ -165,7 +165,7 @@ docker-compose restart web
 
 ### Step 6: Verify Production
 ```bash
-curl https://hostvocher.com -I
+curl https://hostvoucher.com -I
 ```
 
 **Expected Result**:
@@ -246,7 +246,7 @@ cd /var/www/html/hostvoucher && \
 git pull origin main && \
 npm run build && \
 pm2 restart hostvoucher-frontend && \
-curl https://hostvocher.com -I
+curl https://hostvoucher.com -I
 ```
 
 ### Check Production Logs

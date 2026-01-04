@@ -129,7 +129,7 @@ pm2 restart hostvoucher-frontend
 
 ### Step 4: Verify (Should see 200 OK)
 ```bash
-curl -I https://hostvocher.com
+curl -I https://hostvoucher.com
 ```
 
 **That's it!** Website will be back online.

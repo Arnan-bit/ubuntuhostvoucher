@@ -161,7 +161,7 @@ docker-compose restart web
 
 ### Step 5: Verify
 ```bash
-curl https://hostvocher.com
+curl https://hostvoucher.com
 # Harus return 200 OK, bukan 502
 ```
 

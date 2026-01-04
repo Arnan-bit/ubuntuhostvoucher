@@ -84,7 +84,7 @@ STEP 4: Restart application
    $ systemctl restart hostvoucher
 
 STEP 5: Verify
-   $ curl https://hostvocher.com
+   $ curl https://hostvoucher.com
    # Harus return 200 OK, bukan 502
 
 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
@@ -184,7 +184,7 @@ A: ✅ YA - Database terhubung dengan baik, semua 104 products siap
    $ pm2 restart hostvoucher-frontend
 
 4. VERIFIKASI PRODUCTION:
-   $ curl https://hostvocher.com
+   $ curl https://hostvoucher.com
    Expected: HTTP 200 OK, bukan 502!
 
 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
