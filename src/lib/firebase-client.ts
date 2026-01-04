@@ -1,32 +1,15 @@
 'use client';
-// Firebase Client Configuration (Minimal - Auth Only)
-// Updated: Hybrid mode - Firebase Auth only for login, JWT for API calls
-// 
-// 🎯 IMPORTANT: This file uses centralized config from src/config/environment.ts
-// All credentials are loaded from .env.local only - DO NOT hardcode values here
-import { initializeApp, getApp, getApps } from 'firebase/app';
-import { getAuth, signInWithEmailAndPassword, signOut } from 'firebase/auth';
-import { firebase as firebaseConfig } from '@/config/environment';
+// Firebase Client Configuration - DISABLED
+// ❌ Firebase is NOT used in this application
+// This file is kept for backward compatibility only
+// All authentication uses MySQL + JWT instead
 
-const config = {
-    apiKey: firebaseConfig.apiKey,
-    authDomain: firebaseConfig.authDomain,
-    projectId: firebaseConfig.projectId,
-    storageBucket: firebaseConfig.storageBucket,
-    messagingSenderId: firebaseConfig.messagingSenderId,
-    appId: firebaseConfig.appId
-};
+// This is a stub - do not import Firebase modules
+// Firebase initialization is disabled - using MySQL-only
 
-function initializeFirebase() {
-    if (getApps().length) {
-        return getApp();
-    }
-    return initializeApp(config);
-}
-
-const app = initializeFirebase();
-const auth = getAuth(app);
-
-export { auth, app, signInWithEmailAndPassword, signOut };
+export const auth = null;
+export const app = null;
+export const signInWithEmailAndPassword = null;
+export const signOut = null;
 
 
