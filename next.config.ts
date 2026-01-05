@@ -79,12 +79,13 @@ const nextConfig = {
           ? `${process.env.NEXT_PUBLIC_API_BASE_URL}/:path*`
           : 'http://localhost:5000/:path*',
       },
-      {
-        source: '/uploads/:path*',
-        destination: process.env.NODE_ENV === 'production'
-          ? `${process.env.NEXT_PUBLIC_UPLOADS_URL}/:path*`
-          : 'http://localhost:9001/uploads/:path*',
-      },
+      // Uploads rewrite DISABLED - using database-only approach
+      // {
+      //   source: '/uploads/:path*',
+      //   destination: process.env.NODE_ENV === 'production'
+      //     ? `${process.env.NEXT_PUBLIC_UPLOADS_URL}/:path*`
+      //     : 'http://localhost:9001/uploads/:path*',
+      // },
     ];
   }, // Koma sudah benar, karakter 's' sudah dihapus
 

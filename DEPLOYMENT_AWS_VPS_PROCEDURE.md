@@ -20,7 +20,7 @@
 
 ### Yang Anda Butuhkan:
 1. **AWS VPS IP Address** atau domain yang sudah di-point ke VPS
-2. **SSH Access** (key-based atau password)
+2. **SSH Access** (key-based atau password) 
 3. **Root/sudo** access untuk restart services
 4. **Database credentials** (sudah benar di .env.local):
    - Host: `41.216.185.84`
@@ -211,7 +211,7 @@ npm run build 2>&1 | tail -50
 ### Opsi A - Jika pakai PM2:
 ```bash
 pm2 restart hostvoucher-frontend
-# atau nama process Anda
+# atau nama process Anda 
 pm2 restart all
 
 # Verify running:
