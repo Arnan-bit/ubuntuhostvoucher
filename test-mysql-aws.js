@@ -129,11 +129,11 @@ async function testConnection() {
     log('DATABASE CONNECTION FAILED', 'red');
     log('='.repeat(60), 'bright');
     log('\nTroubleshooting:', 'yellow');
-    log('1. Verify AWS IP: 41.216.185.84', 'yellow');
-    log('2. Check credentials: hostvoch_webar / Wizard@231191493', 'yellow');
+    log('1. Verify AWS IP: Check DB_HOST in .env', 'yellow');
+    log('2. Check credentials: Check DB_USER and DB_PASSWORD in .env', 'yellow');
     log('3. Verify MySQL service is running on AWS', 'yellow');
     log('4. Check firewall/security groups allow port 3306', 'yellow');
-    log('5. Database must exist: hostvoch_webapp', 'yellow');
+    log('5. Database must exist: Check DB_DATABASE in .env', 'yellow');
     process.exit(1);
   }
 }

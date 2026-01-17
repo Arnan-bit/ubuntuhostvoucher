@@ -34,11 +34,11 @@ async function setupDatabase() {
   log('='.repeat(60), 'bright');
 
   const config = {
-    host: '41.216.185.84',
+    host: process.env.DB_HOST,
     port: 3306,
-    user: 'hostvoch_webar',
-    password: 'Wizard@231191493',
-    database: 'hostvoch_webapp'
+    user: process.env.DB_USER,
+    password: process.env.DB_PASSWORD,
+    database: process.env.DB_DATABASE
   };
 
   try {
