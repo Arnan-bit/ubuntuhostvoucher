@@ -31,10 +31,10 @@
 ### **3. Environment Configuration**
 ```
 .env.local SETTINGS:
-✅ DB_HOST=41.216.185.84
+✅ DB_HOST=YOUR_DB_HOST
 ✅ DB_PORT=3306
 ✅ DB_USER=hostvoch_webar
-✅ DB_PASSWORD=****** (Wizard@231191493)
+✅ DB_PASSWORD=****** (YOUR_DB_PASSWORD)
 ✅ DB_DATABASE=hostvoch_webapp
 ✅ NODE_ENV=development
 ✅ PORT=3000
@@ -120,10 +120,10 @@ Once you confirm localhost is working:
    NEXT_PUBLIC_API_URL=https://hostvoucher.com/api
    NODE_ENV=production
    PORT=5000
-   DB_HOST=41.216.185.84
+   DB_HOST=YOUR_DB_HOST
    DB_PORT=3306
    DB_USER=hostvoch_webar
-   DB_PASSWORD=Wizard@231191493
+   DB_PASSWORD=YOUR_DB_PASSWORD
    DB_DATABASE=hostvoch_webapp
    JWT_SECRET=a1b2c3d4e5f6g7h8i9j0k1l2m3n4o5p6q7r8s9t0u1v2w3x4y5z6a7b8c9d0e1f2
    JWT_EXPIRES_IN=24h

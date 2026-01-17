@@ -53,9 +53,9 @@ Ketika setup di server BARU, WAJIB ganti nilai ini:
 
 ```env
 # DATABASE (CRITICAL!)
-DB_HOST=41.216.185.84           ← Ganti dengan IP server Anda
+DB_HOST=YOUR_DB_HOST           ← Ganti dengan IP server Anda
 DB_USER=hostvoch_webar          ← Ganti dengan username
-DB_PASSWORD=Wizard@231191493    ← Ganti dengan password STRONG
+DB_PASSWORD=YOUR_DB_PASSWORD    ← Ganti dengan password STRONG
 DB_DATABASE=hostvoucher_db      ← Nama database
 
 # JWT SECRET (CRITICAL!)

@@ -25,7 +25,7 @@
 4. **Database credentials** (sudah benar di .env.local):
    - Host: `41.216.185.84`
    - User: `hostvoch_webar`
-   - Password: `Wizard@231191493`
+   - Password: `YOUR_DB_PASSWORD`
    - Database: `hostvoch_webapp`
 
 ---
@@ -319,7 +319,7 @@ curl https://hostvoucher.com/api/catalog -H "Content-Type: application/json"
 # Method 1 - Direct MySQL client (jika terinstall):
 mysql -h 41.216.185.84 -u hostvoch_webar -p -e "SELECT COUNT(*) as product_count FROM hostvoch_webapp.products;"
 
-# Masukkan password: Wizard@231191493
+# Masukkan password: YOUR_DB_PASSWORD
 ```
 
 **Expected Output:**
@@ -383,7 +383,7 @@ pm2 startup
 - ✅ Database server: `41.216.185.84` (UNCHANGED)
 - ✅ Database name: `hostvoch_webapp` (UNCHANGED)
 - ✅ Database user: `hostvoch_webar` (UNCHANGED)
-- ✅ Database password: `Wizard@231191493` (UNCHANGED)
+- ✅ Database password: `YOUR_DB_PASSWORD` (UNCHANGED)
 - ✅ All products data: 104 items (VERIFIED)
 - ✅ All tables: 30 tables (VERIFIED)
 
@@ -457,9 +457,9 @@ mysql -h 41.216.185.84 -u hostvoch_webar -p -e "SELECT 1"
 cat .env.local | grep -E "^DB_"
 
 # Expected output:
-# DB_HOST=41.216.185.84
+# DB_HOST=YOUR_DB_HOST
 # DB_USER=hostvoch_webar
-# DB_PASSWORD=Wizard@231191493
+# DB_PASSWORD=YOUR_DB_PASSWORD
 # DB_DATABASE=hostvoch_webapp
 
 # If error, verify password:

@@ -73,7 +73,7 @@ npm run build
 {
   host: '41.216.185.84',
   user: 'hostvoch_webar',
-  password: 'Wizard@231191493',
+  password: 'YOUR_DB_PASSWORD',
   database: 'hostvoch_webapp',
   waitForConnections: true,
   connectionLimit: 10,

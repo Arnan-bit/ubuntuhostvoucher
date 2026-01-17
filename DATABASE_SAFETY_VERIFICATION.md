@@ -2,7 +2,7 @@
 
 **Status:** ✅ **COMPLETELY SAFE - NO CORRUPTION**  
 **Verified:** ✅ 104 products found, 30 tables intact  
-**AWS MySQL:** 41.216.185.84:3306  
+**AWS MySQL:** YOUR_DB_HOST:3306  
 **Database:** hostvoch_webapp  
 **Date:** Latest verification successful  
 
@@ -35,7 +35,7 @@ Result: PASS
 ### Test 3: Connection Pool Verification ✅
 ```
 MySQL Connection String: mysql2/promise
-Host: 41.216.185.84
+Host: YOUR_DB_HOST
 Port: 3306
 Pool Settings:
   - waitForConnections: true ✅
@@ -59,10 +59,10 @@ Result: PASS
 
 ### Current Configuration (✅ SAFE):
 ```env
-DB_HOST=41.216.185.84
+DB_HOST=YOUR_DB_HOST
 DB_PORT=3306
-DB_USER=hostvoch_webar
-DB_PASSWORD=Wizard@231191493
+DB_USER=YOUR_DB_USER
+DB_PASSWORD=YOUR_DB_PASSWORD
 DB_DATABASE=hostvoch_webapp
 ```
 
@@ -80,9 +80,9 @@ DB_DATABASE=hostvoch_webapp
 ## 📝 WHAT DID NOT CHANGE
 
 ### Database Layer - UNCHANGED:
-- ✅ Database server: `41.216.185.84` → SAME
+- ✅ Database server: `YOUR_DB_HOST` → SAME
 - ✅ Database name: `hostvoch_webapp` → SAME
-- ✅ Database user: `hostvoch_webar` → SAME
+- ✅ Database user: `YOUR_DB_USER` → SAME
 - ✅ Database password → SAME
 - ✅ All table structures → SAME
 - ✅ All data/products → SAME (104 items)
@@ -174,9 +174,9 @@ Application: Running & Connected
 ssh root@YOUR_VPS_IP
 
 # Test database:
-mysql -h 41.216.185.84 -u hostvoch_webar -p
+mysql -h YOUR_DB_HOST -u YOUR_DB_USER -p
 
-# Enter password: Wizard@231191493
+# Enter password: YOUR_DB_PASSWORD
 
 # Inside MySQL:
 USE hostvoch_webapp;
@@ -212,9 +212,9 @@ cd /var/www/html/hostvoucher
 cat > verify-db.js << 'EOF'
 const mysql = require('mysql2/promise');
 const pool = mysql.createPool({
-  host: '41.216.185.84',
-  user: 'hostvoch_webar',
-  password: 'Wizard@231191493',
+  host: 'YOUR_DB_HOST',
+  user: 'YOUR_DB_USER',
+  password: 'YOUR_DB_PASSWORD',
   database: 'hostvoch_webapp'
 });
 
@@ -324,7 +324,7 @@ Git:       Ready ✅
    cat /var/www/html/hostvoucher/.env.local | grep DB_
    
    # Test database directly
-   mysql -h 41.216.185.84 -u hostvoch_webar -p -e "SELECT 1"
+   mysql -h YOUR_DB_HOST -u YOUR_DB_USER -p -e "SELECT 1"
    ```
 
 2. **Products not showing in admin:**

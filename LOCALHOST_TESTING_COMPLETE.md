@@ -66,10 +66,10 @@ Warnings: 1 (non-critical MySQL option)
 ```
 NODE_ENV=production
 PORT=5000
-DB_HOST=41.216.185.84
+DB_HOST=YOUR_DB_HOST
 DB_PORT=3306
 DB_USER=hostvoch_webar
-DB_PASSWORD=Wizard@231191493
+DB_PASSWORD=YOUR_DB_PASSWORD
 DB_DATABASE=hostvoch_webapp
 ```
 

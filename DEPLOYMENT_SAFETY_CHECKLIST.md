@@ -81,7 +81,7 @@
      SQL: CREATE DATABASE hostvoucher_db CHARACTER SET utf8mb4;
      
 ☐ 3. Create user dan set privileges
-     SQL: CREATE USER 'hostvoch_webar'@'%' IDENTIFIED BY 'Wizard@231191493';
+     SQL: CREATE USER 'hostvoch_webar'@'%' IDENTIFIED BY 'YOUR_DB_PASSWORD';
           GRANT ALL PRIVILEGES ON hostvoucher_db.* TO 'hostvoch_webar'@'%';
           FLUSH PRIVILEGES;
      
@@ -109,9 +109,9 @@
 ☐ 2. Masukkan konfigurasi ACTUAL (BUKAN placeholder!)
      
      # Database Configuration
-     DB_HOST=41.216.185.84           ← ACTUAL server IP
+     DB_HOST=YOUR_DB_HOST           ← ACTUAL server IP
      DB_USER=hostvoch_webar          ← ACTUAL username
-     DB_PASSWORD=Wizard@231191493    ← ACTUAL password
+     DB_PASSWORD=YOUR_DB_PASSWORD    ← ACTUAL password
      DB_DATABASE=hostvoucher_db      ← Database name
      DB_PORT=3306
      

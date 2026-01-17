@@ -15,41 +15,49 @@ const mysql = require('mysql2/promise');
 
 console.log('🔍 COMPREHENSIVE ENVIRONMENT & DATABASE TEST\n');
 
-// Step 1: Check for .env.local file
+// Step 1: Check for .env.local file first (development override)
 console.log('Step 1: Checking for .env.local file...');
-const envPath = path.join(process.cwd(), '.env.local');
-console.log(`Looking for file at: ${envPath}`);
+const envLocalPath = path.join(process.cwd(), '.env.local');
+console.log(`Looking for file at: ${envLocalPath}`);
 
 let envContent = '';
 let envVars = {};
 
 try {
-  if (fs.existsSync(envPath)) {
-    console.log('✅ .env.local file exists');
-    envContent = fs.readFileSync(envPath, 'utf8');
+  if (fs.existsSync(envLocalPath)) {
+    console.log('✅ .env.local file exists (development override)');
+    envContent = fs.readFileSync(envLocalPath, 'utf8');
     console.log(`File size: ${envContent.length} characters`);
-
-    // Parse environment variables
-    const lines = envContent.split('\n').filter(line => line.trim() && !line.startsWith('#'));
-    lines.forEach(line => {
-      const [key, ...valueParts] = line.split('=');
-      if (key && valueParts.length > 0) {
-        const value = valueParts.join('=').trim();
-        envVars[key.trim()] = value;
-      }
-    });
-
-    console.log(`✅ Found ${Object.keys(envVars).length} environment variables`);
   } else {
-    console.log('❌ .env.local file does NOT exist');
-    console.log('\n🔧 SOLUTION: Create .env.local file with your database credentials:');
-    console.log('DB_HOST=41.216.185.84');
-    console.log('DB_USER=hostvoch_webar');
-    console.log('DB_PASSWORD=Wizard@231191493');
-    console.log('DB_DATABASE=hostvoch_webapp');
-    console.log('DB_PORT=3306');
-    process.exit(1);
+    console.log('⚠️ .env.local file does NOT exist, checking .env file...');
+    const envPath = path.join(process.cwd(), '.env');
+    if (fs.existsSync(envPath)) {
+      console.log('✅ .env file exists (master configuration)');
+      envContent = fs.readFileSync(envPath, 'utf8');
+      console.log(`File size: ${envContent.length} characters`);
+    } else {
+      console.log('❌ Neither .env.local nor .env file exists');
+      console.log('\n🔧 SOLUTION: Create .env file with your database credentials:');
+      console.log('DB_HOST=localhost');
+      console.log('DB_USER=hostvoch_webar');
+      console.log('DB_PASSWORD=Wizard@231191493');
+      console.log('DB_DATABASE=hostvoch_webapp');
+      console.log('DB_PORT=3306');
+      process.exit(1);
+    }
   }
+
+  // Parse environment variables from the loaded file
+  const lines = envContent.split('\n').filter(line => line.trim() && !line.startsWith('#'));
+  lines.forEach(line => {
+    const [key, ...valueParts] = line.split('=');
+    if (key && valueParts.length > 0) {
+      const value = valueParts.join('=').trim();
+      envVars[key.trim()] = value;
+    }
+  });
+
+  console.log(`✅ Found ${Object.keys(envVars).length} environment variables`);
 } catch (error) {
   console.log('❌ Error reading .env.local file:', error.message);
   process.exit(1);

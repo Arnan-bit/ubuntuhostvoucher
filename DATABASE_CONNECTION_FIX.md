@@ -72,7 +72,7 @@ Create `.env.local.tunnel`:
 DB_HOST=localhost
 DB_PORT=3307
 DB_USER=hostvoch_webar
-DB_PASSWORD=Wizard@231191493
+DB_PASSWORD=YOUR_DB_PASSWORD
 DB_DATABASE=hostvoch_webapp
 ```
 
@@ -115,7 +115,7 @@ sudo systemctl enable mysql
 **Cause**: Wrong credentials or user permissions
 **Fix**: Verify credentials in AWS MySQL and grant permissions:
 ```sql
-GRANT ALL PRIVILEGES ON hostvoch_webapp.* TO 'hostvoch_webar'@'%' IDENTIFIED BY 'Wizard@231191493';
+GRANT ALL PRIVILEGES ON hostvoch_webapp.* TO 'hostvoch_webar'@'%' IDENTIFIED BY 'YOUR_DB_PASSWORD';
 FLUSH PRIVILEGES;
 ```
 

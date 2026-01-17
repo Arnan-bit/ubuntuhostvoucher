@@ -72,7 +72,7 @@
 # Database Connection
 DB_HOST=localhost
 DB_USER=hostvoch_webar
-DB_PASSWORD=Wizard@231191493
+DB_PASSWORD=YOUR_DB_PASSWORD
 DB_DATABASE=hostvoch_webapp
 
 # JWT Authentication
@@ -320,9 +320,9 @@ try {
 
 2. **Update .env for Production**
    ```env
-   DB_HOST=41.216.185.84
+   DB_HOST=YOUR_DB_HOST
    DB_USER=hostvoch_webar
-   DB_PASSWORD=Wizard@231191493
+   DB_PASSWORD=YOUR_DB_PASSWORD
    DB_DATABASE=hostvoch_webapp
    JWT_SECRET=[NEW_GENERATED_VALUE]
    ```

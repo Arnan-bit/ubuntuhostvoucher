@@ -13,10 +13,10 @@
                ▼
 ┌─────────────────────────────────────────┐
 │  AWS MySQL Database (Single Source)     │
-│  Host: 41.216.185.84                    │
+│  Host: YOUR_DB_HOST                    │
 │  Database: hostvoch_webapp              │
-│  User: hostvoch_webar                   │
-│  Password: Wizard@231191493             │
+│  User: YOUR_DB_USER                   │
+│  Password: YOUR_DB_PASSWORD             │
 │  Tables: 30 (products, orders, admin...) │
 └─────────────────────────────────────────┘
 ```
@@ -37,10 +37,10 @@
 
 1. **`.env.local`** ✅ FIXED
    ```env
-   DB_HOST=41.216.185.84
+   DB_HOST=YOUR_DB_HOST
    DB_PORT=3306
-   DB_USER=hostvoch_webar
-   DB_PASSWORD=Wizard@231191493
+   DB_USER=YOUR_DB_USER
+   DB_PASSWORD=YOUR_DB_PASSWORD
    DB_DATABASE=hostvoch_webapp
    ```
 
@@ -124,9 +124,9 @@ export async function GET() {
 const mysql = require('mysql2/promise');
 
 const connection = await mysql.createConnection({
-  host: '41.216.185.84',
-  user: 'hostvoch_webar',
-  password: 'Wizard@231191493',
+  host: 'YOUR_DB_HOST',
+  user: 'YOUR_DB_USER',
+  password: 'YOUR_DB_PASSWORD',
   database: 'hostvoch_webapp'
 });
 ```
@@ -151,13 +151,13 @@ const connection = await mysql.createConnection({
 ### Connection Issues
 ```bash
 # Test connectivity
-ping 41.216.185.84
+ping YOUR_DB_HOST
 
 # Test MySQL port
-telnet 41.216.185.84 3306
+telnet YOUR_DB_HOST 3306
 
 # Test with credentials
-mysql -h 41.216.185.84 -u hostvoch_webar -p -D hostvoch_webapp
+mysql -h YOUR_DB_HOST -u YOUR_DB_USER -p -D hostvoch_webapp
 ```
 
 ### Common Errors
@@ -169,7 +169,7 @@ mysql -h 41.216.185.84 -u hostvoch_webar -p -D hostvoch_webapp
 
 **"Access denied for user"**
 - Wrong credentials in .env.local
-- Verify: hostvoch_webar / Wizard@231191493
+- Verify: YOUR_DB_USER / YOUR_DB_PASSWORD
 
 **"Database doesn't exist"**
 - Must be: hostvoch_webapp

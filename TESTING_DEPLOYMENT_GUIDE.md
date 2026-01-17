@@ -40,7 +40,7 @@ node test-database-connection.js
 - IP Server: `41.216.185.84`
 - Port: `3306`
 - Username: `hostvoch_webar`
-- Password: `Wizard@231191493`
+- Password: `YOUR_DB_PASSWORD`
 - Network connectivity ke AWS
 
 ---

@@ -111,7 +111,7 @@ package-lock.json               # Lock file
 AWS MySQL: 41.216.185.84
 Database: hostvoch_webapp
 User: hostvoch_webar
-Password: Wizard@231191493
+Password: YOUR_DB_PASSWORD
 Products: 104
 Tables: 30
 Status: ✅ SAFE

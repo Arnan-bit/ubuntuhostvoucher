@@ -26,7 +26,7 @@ DATABASE YANG BELUM BEKERJA SEMPURNA:
 
 **SESUDAH:**
 ```
-✅ .env.local: DB_HOST=41.216.185.84 (AWS IP)
+✅ .env.local: DB_HOST=YOUR_DB_HOST (AWS IP)
 ✅ src/config/environment.ts: Direct AWS IP, NO localhost
 ✅ src/lib/db.ts: AWS IP dengan proper credentials
 ✅ Firebase COMPLETELY REMOVED
@@ -35,10 +35,10 @@ DATABASE YANG BELUM BEKERJA SEMPURNA:
 
 ### 2. CREDENTIALS - PROPER & SECURE
 ```env
-DB_HOST=41.216.185.84
+DB_HOST=YOUR_DB_HOST
 DB_PORT=3306
 DB_USER=hostvoch_webar
-DB_PASSWORD=Wizard@231191493
+DB_PASSWORD=YOUR_DB_PASSWORD
 DB_DATABASE=hostvoch_webapp
 ```
 
@@ -118,9 +118,9 @@ DATABASE STATUS: READY FOR PRODUCTION
 ```
 ┌─────────────────────────────────────────┐
 │ .env.local (CREDENTIALS)                │
-│ DB_HOST=41.216.185.84                   │
+│ DB_HOST=YOUR_DB_HOST                   │
 │ DB_USER=hostvoch_webar                  │
-│ DB_PASSWORD=Wizard@231191493            │
+│ DB_PASSWORD=YOUR_DB_PASSWORD            │
 └──────────────┬──────────────────────────┘
                │
                ▼
@@ -172,7 +172,7 @@ echo $DB_DATABASE    # Should be: hostvoch_webapp
    - No conflicts
 
 2. **✅ Proper Credentials**
-   - hostvoch_webar / Wizard@231191493
+   - hostvoch_webar / YOUR_DB_PASSWORD
    - Secure in .env.local
    - Not hardcoded anywhere
 
