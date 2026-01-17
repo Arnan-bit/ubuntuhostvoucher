@@ -43,18 +43,18 @@ const isDevelopment = isDev;
 // DATABASE CONFIGURATION
 // ========================================
 interface DatabaseConfig {
-  host: string;
-  user: string;
-  password: string;
-  name: string;
+  host: string | undefined;
+  user: string | undefined;
+  password: string | undefined;
+  name: string | undefined;
   port: number;
 }
 
 const dbConfig: DatabaseConfig = {
-  host: process.env.DB_HOST || '41.216.185.84',
-  user: process.env.DB_USER || 'hostvoch_webar',
-  password: process.env.DB_PASSWORD || 'Wizard@231191493',
-  name: process.env.DB_DATABASE || 'hostvoch_webapp',
+  host: process.env.DB_HOST,
+  user: process.env.DB_USER,
+  password: process.env.DB_PASSWORD,
+  name: process.env.DB_DATABASE,
   port: parseInt(process.env.DB_PORT || '3306', 10),
 };
 
@@ -262,6 +262,9 @@ function validateEnvironment() {
   }
   if (!dbConfig.user) {
     throw new Error('❌ DB_USER environment variable is required');
+  }
+  if (!dbConfig.password) {
+    throw new Error('❌ DB_PASSWORD environment variable is required');
   }
   if (!dbConfig.name) {
     throw new Error('❌ DB_NAME environment variable is required');

@@ -48,6 +48,7 @@ interface LandingPageCatalogProps {
     categories?: string[];
     className?: string;
     useMockData?: boolean; // Added for temporary mock data
+    showAllItems?: boolean; // Show all items instead of filtering for landing page
 }
 
 export const LandingPageCatalog: React.FC<LandingPageCatalogProps> = ({
@@ -58,7 +59,8 @@ export const LandingPageCatalog: React.FC<LandingPageCatalogProps> = ({
     maxItems = 12,
     categories = [],
     className = '',
-    useMockData = false // Default to false
+    useMockData = false, // Default to false
+    showAllItems = false // Default to false for backward compatibility
 }) => {
     const [catalogItems, setCatalogItems] = useState<CatalogItem[]>([]);
     const [filteredItems, setFilteredItems] = useState<CatalogItem[]>([]);
@@ -105,13 +107,14 @@ export const LandingPageCatalog: React.FC<LandingPageCatalogProps> = ({
                     const catalogData = await catalogResponse.json();
                     const settingsData = await settingsResponse.json();
 
-                    // Filter only items that should show on landing page
-                    const landingItems = (catalogData.products || []).filter((item: CatalogItem) =>
+                    // Filter items based on showAllItems prop
+                    const allItems = (catalogData.products || []);
+                    const filteredItems = showAllItems ? allItems : allItems.filter((item: CatalogItem) =>
                         item.show_on_landing
                     );
 
-                    setCatalogItems(landingItems);
-                    setFilteredItems(landingItems);
+                    setCatalogItems(filteredItems);
+                    setFilteredItems(filteredItems);
 
                     // Set pagination settings from admin
                     if (settingsData.pagination_settings) {
@@ -126,7 +129,7 @@ export const LandingPageCatalog: React.FC<LandingPageCatalogProps> = ({
         };
 
         fetchCatalogData();
-    }, []);
+    }, [useMockData, showAllItems]);
 
     // Handle pagination
     useEffect(() => {

@@ -4,14 +4,17 @@
  * ============================================
  * MYSQL AWS CONNECTION TESTER
  * ============================================
- * 
+ *
  * Test database connection dan operations
- * AWS Server: 41.216.185.84
- * Database: hostvoch_webapp
+ * AWS Server: 3.104.65.75
+ * Database: hostvoucher_db
  * User: hostvoch_webar
- * 
+ *
  * Jalankan: node test-mysql-aws.js
  */
+
+// Load environment variables from .env.local
+require('dotenv').config({ path: '.env.local' });
 
 const mysql = require('mysql2/promise');
 
@@ -36,11 +39,11 @@ async function testConnection() {
   log('='.repeat(60), 'bright');
   
   const config = {
-    host: '41.216.185.84',
-    port: 3306,
-    user: 'hostvoch_webar',
-    password: 'Wizard@231191493',
-    database: 'hostvoch_webapp'
+    host: process.env.DB_HOST,
+    port: parseInt(process.env.DB_PORT || '3306', 10),
+    user: process.env.DB_USER,
+    password: process.env.DB_PASSWORD,
+    database: process.env.DB_DATABASE
   };
 
   log('\n📋 Configuration:', 'cyan');

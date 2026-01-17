@@ -1,5 +1,7 @@
-/** @type {import('next').NextConfig} */
-const nextConfig = {
+import type { NextConfig } from 'next';
+import type webpack from 'webpack';
+
+const nextConfig: NextConfig = {
   // Opsi untuk mengabaikan error TypeScript & ESLint saat build.
   // PERINGATAN: Sebaiknya nonaktifkan (false) saat development untuk melihat error yang sebenarnya.
   typescript: {
@@ -15,9 +17,8 @@ const nextConfig = {
   serverExternalPackages: ['mysql2'],
 
   // Konfigurasi Webpack
-  webpack: (config, { isServer }) => {
-    if (!isServer) {
-      // Optimasi chunk loading untuk client
+  webpack: (config: webpack.Configuration, { isServer }: { isServer: boolean }) => {
+    if (!isServer && config.optimization) {
       config.optimization.splitChunks = {
         chunks: 'all',
         maxSize: 244000,
@@ -73,12 +74,12 @@ const nextConfig = {
   // Aturan penulisan ulang URL (Proxy)
   async rewrites() {
     return [
-      {
+      // API routes are handled by Next.js directly in development
+      // Only proxy in production if needed
+      ...(process.env.NODE_ENV === 'production' ? [{
         source: '/api/:path*',
-        destination: process.env.NODE_ENV === 'production'
-          ? `${process.env.NEXT_PUBLIC_API_BASE_URL}/:path*`
-          : 'http://localhost:5000/:path*',
-      },
+        destination: `${process.env.NEXT_PUBLIC_API_BASE_URL}/:path*`,
+      }] : []),
       // Uploads rewrite DISABLED - using database-only approach
       // {
       //   source: '/uploads/:path*',

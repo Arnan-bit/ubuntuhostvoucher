@@ -1,12 +1,21 @@
 const mysql = require('mysql2/promise');
 
-// Database configuration
+// Database configuration - ONLY use environment variables for security
 const dbConfig = {
     host: process.env.DB_HOST,
     user: process.env.DB_USER,
     password: process.env.DB_PASSWORD,
-    database: process.env.DB_DATABASE
+    database: process.env.DB_DATABASE,
+    port: parseInt(process.env.DB_PORT || '3306', 10)
 };
+
+// Validate required environment variables
+if (!dbConfig.host || !dbConfig.user || !dbConfig.password || !dbConfig.database) {
+    console.error('❌ ERROR: Missing required database environment variables!');
+    console.error('Required: DB_HOST, DB_USER, DB_PASSWORD, DB_DATABASE');
+    console.error('Please set these in your .env file or environment variables.');
+    process.exit(1);
+}
 
 async function optimizeDatabase() {
     let connection;

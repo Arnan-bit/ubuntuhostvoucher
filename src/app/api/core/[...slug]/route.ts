@@ -25,9 +25,10 @@ const makeSerializable = (data: any): any => {
 
 export async function GET(
     request: NextRequest,
-    { params }: { params: { slug: string[] } }
+    { params }: { params: Promise<{ slug: string[] }> }
 ) {
-    const [endpoint, ...rest] = params.slug || [];
+    const resolvedParams = await params;
+    const [endpoint, ...rest] = resolvedParams.slug || [];
     
     try {
         switch (endpoint) {
@@ -61,9 +62,10 @@ export async function GET(
 
 export async function POST(
     request: NextRequest,
-    { params }: { params: { slug: string[] } }
+    { params }: { params: Promise<{ slug: string[] }> }
 ) {
-    const [endpoint, ...rest] = params.slug || [];
+    const resolvedParams = await params;
+    const [endpoint, ...rest] = resolvedParams.slug || [];
     
     try {
         switch (endpoint) {
@@ -148,6 +150,12 @@ async function handleDataGet(request: NextRequest) {
             case 'banners':
                 const bannersResult: any = await query({ query: 'SELECT page_banners FROM settings WHERE id = ?', values: ['main_settings'] });
                 data = bannersResult.length > 0 && bannersResult[0].page_banners ? JSON.parse(bannersResult[0].page_banners) : [];
+                break;
+
+            case 'categories':
+                // Return a list of unique categories from products
+                const categoryResults: any = await query({ query: 'SELECT DISTINCT type FROM products WHERE type IS NOT NULL AND type != "" ORDER BY type' });
+                data = categoryResults.map((row: any) => row.type);
                 break;
 
             default:

@@ -16,15 +16,15 @@ const tests = [
     expectedStatus: 200,
   },
   {
-    name: '🛍️  Products API (GET /api/core/products)',
+    name: '🛍️  Products API (GET /api/core/data?type=deals)',
     method: 'GET',
-    path: '/api/core/products',
+    path: '/api/core/data?type=deals',
     expectedStatus: 200,
   },
   {
-    name: '🏷️  Categories API (GET /api/core/categories)',
+    name: '🏷️  Categories API (GET /api/core/data?type=categories)',
     method: 'GET',
-    path: '/api/core/categories',
+    path: '/api/core/data?type=categories',
     expectedStatus: 200,
   },
   {
@@ -85,7 +85,7 @@ async function runTests(port = 3001) {
   }
 }
 
-function makeRequest(method, path, body = null, port = 3001) {
+function makeRequest(method, path, body = null, port = 3000) {
   return new Promise((resolve, reject) => {
     const options = {
       hostname: 'localhost',
@@ -131,5 +131,5 @@ function makeRequest(method, path, body = null, port = 3001) {
 }
 
 // Run tests
-const port = process.argv[2] || 3001;
+const port = process.argv[2] || 3000;
 runTests(parseInt(port));

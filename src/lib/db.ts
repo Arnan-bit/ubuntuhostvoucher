@@ -3,11 +3,12 @@
 import mysql from 'mysql2/promise';
 
 // Database configuration with connection pooling - AWS MySQL ONLY
+// SECURITY: Only use environment variables, no hardcoded credentials
 const dbConfig = {
-  host: process.env.DB_HOST || '41.216.185.84',
-  user: process.env.DB_USER || 'hostvoch_webar',
-  password: process.env.DB_PASSWORD || 'Wizard@231191493',
-  database: process.env.DB_DATABASE || 'hostvoch_webapp',
+  host: process.env.DB_HOST,
+  user: process.env.DB_USER,
+  password: process.env.DB_PASSWORD,
+  database: process.env.DB_DATABASE,
   port: 3306,
   waitForConnections: true,
   connectionLimit: 10,
@@ -15,6 +16,11 @@ const dbConfig = {
   enableKeepAlive: true,
   keepAliveInitialDelayMs: 0
 };
+
+// Validate required environment variables
+if (!dbConfig.host || !dbConfig.user || !dbConfig.password || !dbConfig.database) {
+  throw new Error('❌ Missing required database environment variables: DB_HOST, DB_USER, DB_PASSWORD, DB_DATABASE');
+}
 
 // Create a connection pool to manage connections efficiently
 const pool = mysql.createPool(dbConfig);

@@ -25,7 +25,8 @@ export default function CatalogPage() {
                     maxItems={1000} // Show all items with pagination
                     categories={[]}
                     className="bg-transparent"
-                    useMockData={true} // Enable mock data
+                    useMockData={false} // Use real database data
+                    showAllItems={true} // Show all products, not just landing page items
                 />
             </div>
         </div>

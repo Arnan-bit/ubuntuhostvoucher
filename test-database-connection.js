@@ -1,23 +1,32 @@
 #!/usr/bin/env node
 /**
  * Test Database Connection Directly
- * 
+ *
  * Tujuan: Verifikasi koneksi ke database AWS MySQL tanpa melalui Next.js server
  * Database: 41.216.185.84:3306 (hostvoch_webapp)
  */
 
+require('dotenv').config({ path: '.env.local' });
 const mysql = require('mysql2/promise');
 
 const config = {
-  host: '41.216.185.84',
-  port: 3306,
-  user: 'hostvoch_webar',
-  password: 'Wizard@231191493',
-  database: 'hostvoch_webapp',
+  host: process.env.DB_HOST,
+  port: parseInt(process.env.DB_PORT || '3306', 10),
+  user: process.env.DB_USER,
+  password: process.env.DB_PASSWORD,
+  database: process.env.DB_DATABASE,
   waitForConnections: true,
   connectionLimit: 10,
   enableKeepAlive: true,
 };
+
+// Validate required environment variables
+if (!config.host || !config.user || !config.password || !config.database) {
+  console.error('❌ ERROR: Missing required database environment variables!');
+  console.error('Required: DB_HOST, DB_USER, DB_PASSWORD, DB_DATABASE');
+  console.error('Please set these in your .env file or environment variables.');
+  process.exit(1);
+}
 
 async function testConnection() {
   console.log('🔍 Testing Database Connection...\n');
