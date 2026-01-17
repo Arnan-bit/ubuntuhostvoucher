@@ -37,12 +37,17 @@ try {
       console.log(`File size: ${envContent.length} characters`);
     } else {
       console.log('❌ Neither .env.local nor .env file exists');
-      console.log('\n🔧 SOLUTION: Create .env file with your database credentials:');
+      console.log('\n🔧 SOLUTION: Create .env file with your database credentials.');
+      console.log('   Copy the following template and replace with your actual values:');
+      console.log('');
       console.log('DB_HOST=localhost');
       console.log('DB_USER=hostvoch_webar');
       console.log('DB_PASSWORD=Wizard@231191493');
       console.log('DB_DATABASE=hostvoch_webapp');
       console.log('DB_PORT=3306');
+      console.log('');
+      console.log('⚠️  SECURITY WARNING: Never commit .env file to GitHub!');
+      console.log('   .env is already in .gitignore for your safety.');
       process.exit(1);
     }
   }
@@ -188,19 +193,19 @@ async function testDatabaseConnection() {
 
     if (error.code === 'ECONNREFUSED') {
       console.log('\n🔧 TROUBLESHOOTING:');
-      console.log('1. Check if AWS VPS is running');
-      console.log('2. Verify IP address: 41.216.185.84');
-      console.log('3. Check if MySQL port 3306 is open in AWS security groups');
-      console.log('4. Verify MySQL service is running on VPS');
+      console.log('1. Check if database server is running');
+      console.log('2. Verify DB_HOST in your .env file');
+      console.log('3. Check if MySQL port 3306 is open in security groups');
+      console.log('4. Verify MySQL service is running on server');
     } else if (error.code === 'ER_ACCESS_DENIED_ERROR') {
       console.log('\n🔧 TROUBLESHOOTING:');
-      console.log('1. Check username: hostvoch_webar');
-      console.log('2. Check password in .env.local file');
-      console.log('3. Verify user has access to hostvoch_webapp database');
+      console.log('1. Check DB_USER in your .env file');
+      console.log('2. Check DB_PASSWORD in your .env file');
+      console.log('3. Verify user has access to the database');
     } else if (error.code === 'ER_BAD_DB_ERROR') {
       console.log('\n🔧 TROUBLESHOOTING:');
-      console.log('1. Check database name: hostvoch_webapp');
-      console.log('2. Verify database exists on AWS VPS');
+      console.log('1. Check DB_DATABASE in your .env file');
+      console.log('2. Verify database exists on server');
     }
 
     process.exit(1);
