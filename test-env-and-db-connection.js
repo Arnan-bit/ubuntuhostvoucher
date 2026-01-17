@@ -37,14 +37,14 @@ try {
       console.log(`File size: ${envContent.length} characters`);
     } else {
       console.log('❌ Neither .env.local nor .env file exists');
-      console.log('\n🔧 SOLUTION: Create .env file with your database credentials.');
-      console.log('   Copy the following template and replace with your actual values:');
-      console.log('');
-      console.log('DB_HOST=localhost');
-      console.log('DB_USER=hostvoch_webar');
-      console.log('DB_PASSWORD=Wizard@231191493');
-      console.log('DB_DATABASE=hostvoch_webapp');
-      console.log('DB_PORT=3306');
+      console.log('\n🔧 SOLUTION: Create a .env file in the project root with your database credentials.');
+      console.log('   Required variables: DB_HOST, DB_USER, DB_PASSWORD, DB_DATABASE, DB_PORT');
+      console.log('   Template:');
+      console.log('   DB_HOST=');
+      console.log('   DB_USER=');
+      console.log('   DB_PASSWORD=');
+      console.log('   DB_DATABASE=');
+      console.log('   DB_PORT=3306');
       console.log('');
       console.log('⚠️  SECURITY WARNING: Never commit .env file to GitHub!');
       console.log('   .env is already in .gitignore for your safety.');
@@ -63,10 +63,13 @@ try {
   });
 
   console.log(`✅ Found ${Object.keys(envVars).length} environment variables`);
-} catch (error) {
-  console.log('❌ Error reading .env.local file:', error.message);
-  process.exit(1);
-}
+  console.log('\n📋 Current .env values (for reference):');
+  console.log(`DB_HOST=${envVars.DB_HOST || 'NOT SET'}`);
+  console.log(`DB_USER=${envVars.DB_USER || 'NOT SET'}`);
+  console.log(`DB_PASSWORD=${envVars.DB_PASSWORD ? 'SET (hidden)' : 'NOT SET'}`);
+  console.log(`DB_DATABASE=${envVars.DB_DATABASE || 'NOT SET'}`);
+  console.log(`DB_PORT=${envVars.DB_PORT || '3306'}`);
+  console.log('');
 
 // Step 2: Load environment variables
 console.log('\nStep 2: Loading environment variables...');

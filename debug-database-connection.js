@@ -20,10 +20,10 @@ console.log('');
 
 // Database configuration
 const dbConfig = {
-  host: process.env.DB_HOST,
-  user: process.env.DB_USER,
-  password: process.env.DB_PASSWORD,
-  database: process.env.DB_DATABASE,
+  host: process.env.DB_HOST || '41.216.185.84',
+  user: process.env.DB_USER || 'hostvoch_webar',
+  password: process.env.DB_PASSWORD || 'Wizard@231191493',
+  database: process.env.DB_DATABASE || 'hostvoch_webapp',
   port: parseInt(process.env.DB_PORT || '3306'),
   connectTimeout: 10000,
   acquireTimeout: 10000,
